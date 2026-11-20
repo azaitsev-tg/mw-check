@@ -111,6 +111,31 @@
       color: var(--text-main);
     }
 
+    .geo-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-size: 12px;
+    }
+
+    .geo-label {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .geo-value {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
     .input-group {
       margin-bottom: 14px;
     }
@@ -312,7 +337,7 @@
 
     .domain-name {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--text-main);
       word-break: break-all;
     }
@@ -350,7 +375,7 @@
 
     .raw-textarea {
       width: 100%;
-      height: 180px;
+      height: 200px;
       margin-top: 10px;
       background: var(--bg-primary);
       border: 1px solid var(--border);
@@ -377,7 +402,7 @@
   <header class="header">
     <div class="header-inner">
       <div class="brand">Service Report<span class="brand-dot">.</span></div>
-      <div id="versionBadge" class="header-badge">NetCheck v1.0.0</div>
+      <div id="versionBadge" class="header-badge">NetCheck v1.1.0</div>
     </div>
   </header>
 
@@ -387,13 +412,18 @@
         <strong>Инструкция:</strong> перед запуском отключите мобильный интернет (4G/5G) и подключите устройство к Wi-Fi сети, в которой работают тренажёры. После завершения нажмите <strong>«Скопировать лог»</strong> и отправьте инженеру.
       </div>
 
+      <div class="geo-strip">
+        <span class="geo-label">Локация / Выход в сеть:</span>
+        <span id="geoDisplay" class="geo-value">Определение...</span>
+      </div>
+
       <div class="input-group">
         <label class="input-label" for="clientNote">Название клуба или комментарий (необязательно)</label>
         <input type="text" id="clientNote" class="text-input" placeholder="Например: Фитнес-клуб Олимп, зал кардио">
       </div>
 
       <div class="actions">
-        <button id="startBtn" class="btn btn-primary" onclick="startDiagnostics()">Запустить проверку (36)</button>
+        <button id="startBtn" class="btn btn-primary" onclick="startDiagnostics()">Запустить проверку (41)</button>
         <button id="copyBtn" class="btn btn-secondary" onclick="copyReport()" disabled>Скопировать лог</button>
       </div>
     </section>
@@ -401,7 +431,7 @@
     <section class="card">
       <div class="stats-grid">
         <div class="stat-box">
-          <div id="statDone" class="stat-val">0 / 36</div>
+          <div id="statDone" class="stat-val">0 / 41</div>
           <div class="stat-lbl">Проверено</div>
         </div>
         <div class="stat-box">
@@ -420,9 +450,9 @@
 
     <section class="card">
       <div class="toolbar">
-        <div class="section-title">Узлы MyWellness / AWS</div>
+        <div class="section-title">Узлы Technogym Cloud / AWS</div>
         <div class="filter-pills">
-          <button id="filterAll" class="pill active" onclick="setFilter('all')">Все (36)</button>
+          <button id="filterAll" class="pill active" onclick="setFilter('all')">Все (41)</button>
           <button id="filterFail" class="pill" onclick="setFilter('fail')">Только ошибки</button>
         </div>
       </div>
@@ -434,25 +464,54 @@
       <textarea id="rawLogArea" class="raw-textarea" readonly placeholder="Запустите проверку, чтобы сформировать отчёт..."></textarea>
     </details>
 
-    <footer id="footerVersion" class="footer">Service Report Diagnostics · v1.0.0</footer>
+    <footer id="footerVersion" class="footer">Service Report Diagnostics · v1.1.0</footer>
   </main>
 
   <script>
-    var APP_VERSION = "v1.0.0";
+    var APP_VERSION = "v1.1.0";
 
-    var DOMAINS = [
-      "mywellness.com", "account.mywellness.com", "achievement.mywellness.com",
-      "api.mywellness.com", "api-exerp.mywellness.com", "assessment.mywellness.com",
-      "booking.mywellness.com", "calendar.mywellness.com", "challenges.mywellness.com",
-      "cms.mywellness.com", "coach.mywellness.com", "comm.mywellness.com",
-      "contentrelease.mywellness.com", "core.mywellness.com", "eam.mywellness.com",
-      "eam-api.mywellness.com", "enterprise.mywellness.com", "leaderboards.mywellness.com",
-      "meet.mywellness.com", "oid.mywellness.com", "pay.mywellness.com",
-      "races.mywellness.com", "reporting.mywellness.com", "services.mywellness.com",
-      "storeapi.mywellness.com", "training.mywellness.com", "ud.mywellness.com",
-      "workout.mywellness.com", "fuse.mywellness.com", "iotcore.mywellness.com",
-      "onedevice-api.technogym.com", "amazonaws.com", "facebook.com",
-      "fbcdn.net", "google-analytics.com", "googleapis.com"
+    var ENDPOINTS = [
+      "https://www.mywellness.com/robots.txt",
+      "https://account.mywellness.com",
+      "https://achievement.mywellness.com",
+      "https://ai-api.mywellness.com",
+      "https://api.mywellness.com",
+      "https://api-exerp.mywellness.com",
+      "https://assessment.mywellness.com",
+      "https://booking.mywellness.com/say33",
+      "https://calendar.mywellness.com",
+      "https://challenges.mywellness.com",
+      "https://cms.mywellness.com",
+      "https://coach.mywellness.com",
+      "https://comm.mywellness.com",
+      "https://contentrelease.mywellness.com",
+      "https://core.mywellness.com",
+      "https://core.mywellness.com/say33",
+      "https://eam.mywellness.com",
+      "https://eam-api.mywellness.com",
+      "https://fuse.mywellness.com",
+      "https://iotcore.mywellness.com",
+      "https://leaderboards.mywellness.com",
+      "https://meet.mywellness.com",
+      "https://oid.mywellness.com",
+      "https://pay.mywellness.com",
+      "https://races.mywellness.com",
+      "https://reporting.mywellness.com",
+      "https://services.mywellness.com",
+      "https://storeapi.mywellness.com",
+      "https://training.mywellness.com",
+      "https://ud.mywellness.com",
+      "https://workout.mywellness.com",
+      "https://workout.mywellness.com/say33",
+      "https://onedevice-api.technogym.com/api/v1/status",
+      "https://www.technogym.com",
+      "https://www.worldweatheronline.com",
+      "https://google.com",
+      "https://googleapis.com",
+      "https://google-analytics.com",
+      "https://facebook.com",
+      "https://fbcdn.net",
+      "https://amazonaws.com"
     ];
 
     var results = [];
@@ -460,18 +519,109 @@
     var currentFilter = "all";
     var testTimestamp = "";
 
+    var clientGeo = {
+      location: "Не определена",
+      ip: "н/д",
+      isp: "н/д",
+      timezone: "н/д"
+    };
+
+    try {
+      clientGeo.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "н/д";
+    } catch (e) {}
+
     document.getElementById("versionBadge").textContent = "NetCheck " + APP_VERSION;
     document.getElementById("footerVersion").textContent = "Service Report Diagnostics · " + APP_VERSION;
+    document.getElementById("startBtn").textContent = "Запустить проверку (" + ENDPOINTS.length + ")";
+    document.getElementById("filterAll").textContent = "Все (" + ENDPOINTS.length + ")";
+
+    function fetchJsonTimeout(url, ms) {
+      return new Promise(function(resolve, reject) {
+        var done = false;
+        var timer = setTimeout(function() {
+          if (!done) {
+            done = true;
+            reject(new Error("timeout"));
+          }
+        }, ms);
+
+        fetch(url, { cache: "no-store" })
+          .then(function(res) {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.json();
+          })
+          .then(function(data) {
+            if (!done) {
+              done = true;
+              clearTimeout(timer);
+              resolve(data);
+            }
+          })
+          .catch(function(err) {
+            if (!done) {
+              done = true;
+              clearTimeout(timer);
+              reject(err);
+            }
+          });
+      });
+    }
+
+    function detectLocation() {
+      var geoEl = document.getElementById("geoDisplay");
+      geoEl.textContent = "Определение...";
+
+      return fetchJsonTimeout("https://ipwho.is/?lang=ru", 4000)
+        .then(function(d) {
+          if (!d || d.success === false) throw new Error("ipwho fail");
+          var parts = [d.city, d.region, d.country].filter(Boolean);
+          clientGeo.location = parts.join(", ") || "Не определена";
+          clientGeo.ip = d.ip || "н/д";
+          clientGeo.isp = (d.connection && (d.connection.isp || d.connection.org)) || "н/д";
+        })
+        .catch(function() {
+          return fetchJsonTimeout("https://get.geojs.io/v1/ip/geo.json", 4000)
+            .then(function(d) {
+              var parts = [d.city, d.region, d.country].filter(Boolean);
+              clientGeo.location = parts.join(", ") || "Не определена";
+              clientGeo.ip = d.ip || "н/д";
+              clientGeo.isp = d.organization_name || "н/д";
+            });
+        })
+        .catch(function() {
+          return fetchJsonTimeout("https://ipapi.co/json/", 4000)
+            .then(function(d) {
+              if (d && d.error) throw new Error("ipapi limit");
+              var parts = [d.city, d.region, d.country_name].filter(Boolean);
+              clientGeo.location = parts.join(", ") || "Не определена";
+              clientGeo.ip = d.ip || "н/д";
+              clientGeo.isp = d.org || "н/д";
+            });
+        })
+        .catch(function() {
+          clientGeo.location = "Не определена (TZ: " + clientGeo.timezone + ")";
+        })
+        .then(function() {
+          var summary = clientGeo.location;
+          if (clientGeo.ip !== "н/д") {
+            summary += " · " + clientGeo.ip;
+          }
+          geoEl.textContent = summary;
+          document.getElementById("rawLogArea").value = buildReportText();
+        });
+    }
 
     function initList() {
       var container = document.getElementById("domainList");
       container.innerHTML = "";
       results = [];
 
-      for (var i = 0; i < DOMAINS.length; i++) {
-        var domain = DOMAINS[i];
+      for (var i = 0; i < ENDPOINTS.length; i++) {
+        var url = ENDPOINTS[i];
+        var label = url.replace(/^https?:\/\//, "");
         results.push({
-          domain: domain,
+          url: url,
+          label: label,
           status: "idle",
           detail: "Ожидание",
           ms: null
@@ -481,7 +631,7 @@
         row.className = "domain-item";
         row.id = "row-" + i;
         row.innerHTML =
-          '<span class="domain-name">' + domain + '</span>' +
+          '<span class="domain-name">' + label + '</span>' +
           '<span id="badge-' + i + '" class="badge badge-idle">Ожидание</span>';
         container.appendChild(row);
       }
@@ -508,7 +658,7 @@
 
     function checkSingle(index) {
       return new Promise(function(resolve) {
-        var domain = DOMAINS[index];
+        var targetUrl = ENDPOINTS[index];
         var badge = document.getElementById("badge-" + index);
         results[index].status = "wait";
         badge.className = "badge badge-wait";
@@ -529,7 +679,7 @@
           }
         }, timeoutMs);
 
-        fetch("https://" + domain + "/?_mwcheck=" + start, {
+        fetch(targetUrl, {
           mode: "no-cors",
           cache: "no-store"
         })
@@ -576,10 +726,10 @@
         }
       }
 
-      document.getElementById("statDone").textContent = done + " / " + DOMAINS.length;
+      document.getElementById("statDone").textContent = done + " / " + ENDPOINTS.length;
       document.getElementById("statOk").textContent = ok;
       document.getElementById("statFail").textContent = fail;
-      document.getElementById("progressFill").style.width = Math.round((done / DOMAINS.length) * 100) + "%";
+      document.getElementById("progressFill").style.width = Math.round((done / ENDPOINTS.length) * 100) + "%";
       document.getElementById("filterFail").textContent = "Только ошибки (" + fail + ")";
 
       applyFilter();
@@ -602,11 +752,14 @@
       initList();
       updateProgress();
 
+      // Обновляем GeoIP при старте теста на случай смены сети (4G -> Wi-Fi)
+      var geoPromise = detectLocation();
+
       var cursor = 0;
       var concurrency = 6;
 
       function worker() {
-        if (cursor >= DOMAINS.length) {
+        if (cursor >= ENDPOINTS.length) {
           return Promise.resolve();
         }
         var idx = cursor++;
@@ -616,7 +769,7 @@
         });
       }
 
-      var workers = [];
+      var workers = [geoPromise];
       for (var w = 0; w < concurrency; w++) {
         workers.push(worker());
       }
@@ -639,11 +792,11 @@
       for (var i = 0; i < results.length; i++) {
         var r = results[i];
         if (r.status === "ok") {
-          okList.push("[OK]   " + r.domain + " — " + r.ms + " ms");
+          okList.push("[OK]   " + r.url + " — " + r.ms + " ms");
         } else if (r.status === "fail") {
-          failList.push("[FAIL] " + r.domain + " — " + r.detail);
+          failList.push("[FAIL] " + r.url + " — " + r.detail);
         } else {
-          waitList.push("[WAIT] " + r.domain);
+          waitList.push("[WAIT] " + r.url);
         }
       }
 
@@ -658,14 +811,17 @@
         "=== SERVICE REPORT: MYWELLNESS NETCHECK (" + APP_VERSION + ") ===",
         "Дата и время: " + (testTimestamp || new Date().toLocaleString("ru-RU")),
         "Объект: " + note,
-        "Итог: Доступно " + okList.length + " из " + DOMAINS.length + " (Ошибок: " + failList.length + ")",
+        "Локация (GeoIP): " + clientGeo.location,
+        "Внешний IP / ISP: " + clientGeo.ip + " (" + clientGeo.isp + ")",
+        "Часовой пояс (Устройство): " + clientGeo.timezone,
+        "Итог: Доступно " + okList.length + " из " + ENDPOINTS.length + " (Ошибок: " + failList.length + ")",
         "Сеть (браузер): " + connInfo,
         "Устройство: " + navigator.userAgent,
         "-------------------------------------------"
       ];
 
       if (failList.length > 0) {
-        lines.push("НЕДОСТУПНЫЕ ДОМЕНЫ (" + failList.length + "):");
+        lines.push("НЕДОСТУПНЫЕ УЗЛЫ (" + failList.length + "):");
         for (var f = 0; f < failList.length; f++) {
           lines.push(failList[f]);
         }
@@ -673,7 +829,7 @@
       }
 
       if (okList.length > 0) {
-        lines.push("ДОСТУПНЫЕ ДОМЕНЫ (" + okList.length + "):");
+        lines.push("ДОСТУПНЫЕ УЗЛЫ (" + okList.length + "):");
         for (var o = 0; o < okList.length; o++) {
           lines.push(okList[o]);
         }
@@ -733,6 +889,7 @@
     });
 
     initList();
+    detectLocation();
   </script>
 </body>
 </html>
