@@ -38,6 +38,10 @@
       padding-bottom: 44px;
     }
 
+    body.drawer-open {
+      overflow: hidden;
+    }
+
     .hidden {
       display: none !important;
     }
@@ -51,7 +55,7 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 16px;
+      padding: 12px 16px;
     }
 
     .header-inner {
@@ -63,6 +67,39 @@
       gap: 12px;
     }
 
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .burger-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .burger-btn:hover {
+      border-color: var(--accent);
+    }
+
+    .burger-line {
+      width: 18px;
+      height: 2px;
+      background: var(--text-main);
+      border-radius: 2px;
+    }
+
     .brand {
       font-size: 18px;
       font-weight: 700;
@@ -70,6 +107,7 @@
       color: var(--text-main);
       display: flex;
       align-items: center;
+      cursor: pointer;
     }
 
     .brand-dot {
@@ -89,8 +127,122 @@
       border: 1px solid rgba(255, 210, 0, 0.25);
       padding: 4px 8px;
       border-radius: 6px;
+      white-space: nowrap;
     }
 
+    /* Slide-out Drawer Menu */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.68);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .drawer-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 286px;
+      max-width: 85vw;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border);
+      z-index: 210;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(-100%);
+      transition: transform 0.22s ease;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .drawer-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-primary);
+      color: var(--text-main);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .drawer-nav {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: background-color 0.15s, border-color 0.15s;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-surface-2);
+    }
+
+    .nav-item.active {
+      background: var(--accent-soft);
+      border-color: rgba(255, 210, 0, 0.35);
+    }
+
+    .nav-item-title {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .nav-item.active .nav-item-title {
+      color: var(--accent);
+    }
+
+    .nav-item-sub {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .drawer-footer {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Main Layout */
     .container {
       max-width: 780px;
       margin: 0 auto;
@@ -256,7 +408,11 @@
       margin-top: 10px;
     }
 
-    /* Received Report Banner */
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     .received-meta {
       font-size: 13px;
       color: var(--text-muted);
@@ -269,7 +425,7 @@
       color: var(--text-main);
     }
 
-    /* Stats */
+    /* Stats & Progress */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -318,7 +474,7 @@
       transition: width 0.2s ease;
     }
 
-    /* QR Code Section */
+    /* QR Section */
     .qr-header {
       display: flex;
       flex-wrap: wrap;
@@ -380,7 +536,7 @@
       word-break: break-all;
     }
 
-    /* Smart Diagnosis & Mini-Guide */
+    /* Smart Diagnosis & Guides */
     .diag-banner {
       border-radius: 10px;
       padding: 14px;
@@ -438,7 +594,6 @@
       padding: 9px 10px;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.15s, color 0.15s;
     }
 
     .role-tab.active {
@@ -489,9 +644,9 @@
       margin-bottom: 2px;
     }
 
-    /* Collapsible Full Checklist */
+    /* Accordions & Symptom Cards */
     details.accordion {
-      margin-top: 14px;
+      margin-top: 10px;
       background: var(--bg-primary);
       border: 1px solid var(--border);
       border-radius: 10px;
@@ -499,12 +654,35 @@
     }
 
     details.accordion summary {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 700;
-      color: var(--accent);
+      color: var(--text-main);
       cursor: pointer;
       user-select: none;
     }
+
+    details.accordion.accent-summary summary {
+      color: var(--accent);
+    }
+
+    .accordion-body {
+      margin-top: 12px;
+    }
+
+    .symptom-tag {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .tag-fail { color: var(--fail); background: var(--fail-bg); }
+    .tag-warn { color: var(--wait); background: var(--wait-bg); }
+    .tag-ok { color: var(--ok); background: var(--ok-bg); }
 
     .checklist-items {
       margin-top: 12px;
@@ -517,7 +695,7 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      padding: 8px 10px;
+      padding: 9px 10px;
       border-radius: 8px;
       background: var(--bg-surface);
       border: 1px solid var(--border);
@@ -543,6 +721,34 @@
       text-decoration: line-through;
     }
 
+    /* IT Spec Table */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      margin: 10px 0 12px;
+    }
+
+    .spec-table th,
+    .spec-table td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .spec-table th {
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      color: var(--accent);
+    }
+
     /* Filter Tabs & Domain List */
     .toolbar {
       display: flex;
@@ -559,6 +765,19 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
+    }
+
+    .page-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
     }
 
     .filter-pills {
@@ -668,6 +887,32 @@
       resize: vertical;
     }
 
+    .ref-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 600px) {
+      .ref-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .ref-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      word-break: break-all;
+    }
+
     .footer {
       text-align: center;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -682,1024 +927,1378 @@
 
   <header class="header">
     <div class="header-inner">
-      <div class="brand">Service Report<span class="brand-dot">.</span></div>
-      <div id="versionBadge" class="header-badge">NetCheck v2.0.0</div>
+      <div class="header-left">
+        <button id="burgerBtn" class="burger-btn" type="button" aria-label="Открыть меню">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+        <div id="brandBtn" class="brand">Service Report<span class="brand-dot">.</span></div>
+      </div>
+      <div id="versionBadge" class="header-badge">NetCheck v2.1.0</div>
     </div>
   </header>
 
+  <!-- Slide-out Burger Menu -->
+  <div id="drawerBackdrop" class="drawer-backdrop"></div>
+  <aside id="drawer" class="drawer" aria-label="Навигация">
+    <div class="drawer-header">
+      <div class="brand">Меню<span class="brand-dot">.</span></div>
+      <button id="drawerCloseBtn" class="drawer-close" type="button" aria-label="Закрыть меню">×</button>
+    </div>
+    <nav class="drawer-nav">
+      <button class="nav-item active" type="button" data-nav="check">
+        <span class="nav-item-title">Проверка сети</span>
+        <span class="nav-item-sub">Тест 41 узла, GeoIP, QR-код и отчёт</span>
+      </button>
+      <button class="nav-item" type="button" data-nav="guide">
+        <span class="nav-item-title">Диагностика и поиск неисправностей</span>
+        <span class="nav-item-sub">Симптомы, чеклист, требования для IT</span>
+      </button>
+      <button class="nav-item" type="button" data-nav="howto">
+        <span class="nav-item-title">Инструкция и справочник кодов</span>
+        <span class="nav-item-sub">Как провести тест + коды #01–#41</span>
+      </button>
+    </nav>
+    <div id="drawerFooter" class="drawer-footer">Service Report NetCheck · v2.1.0</div>
+  </aside>
+
   <main class="container">
 
-    <!-- Banner when report is opened via QR code from console -->
-    <section id="receivedCard" class="card card-highlight hidden">
-      <div class="section-title" style="color: var(--accent);">Отчёт принят по QR-коду с тренажёра</div>
-      <div id="receivedMeta" class="received-meta"></div>
-      <div class="actions-row">
-        <button id="receivedShareBtn" class="btn btn-primary" onclick="shareReport(this)">Поделиться отчётом</button>
-        <button id="receivedCopyBtn" class="btn btn-secondary ready" onclick="copyReport(this)">Скопировать лог</button>
-      </div>
-      <button class="btn btn-ghost" onclick="exitViewerMode()">Запустить новый тест на этом устройстве</button>
-    </section>
+    <!-- ==================== VIEW 1: NETWORK CHECK ==================== -->
+    <div id="view-check">
 
-    <!-- Main Control Card -->
-    <section id="controlCard" class="card">
-      <div class="notice">
-        <strong>Инструкция:</strong> на смартфоне отключите мобильный интернет (4G/5G) и подключитесь к Wi-Fi зала. На тренажёре Live просто нажмите запуск, а затем отсканируйте QR-код телефоном, чтобы отправить отчёт инженеру.
-      </div>
-
-      <div class="geo-strip">
-        <span class="geo-label">Локация / Выход в сеть:</span>
-        <span id="geoDisplay" class="geo-value">Определение...</span>
-      </div>
-
-      <div class="input-group">
-        <label class="input-label" for="clientNote">Название клуба или номер тренажёра (необязательно)</label>
-        <input type="text" id="clientNote" class="text-input" placeholder="Например: Клуб Олимп, дорожка №3">
-      </div>
-
-      <div class="actions actions-3">
-        <button id="startBtn" class="btn btn-primary" onclick="startDiagnostics()">Запустить проверку (41)</button>
-        <button id="shareBtn" class="btn btn-secondary" onclick="shareReport(this)" disabled>Поделиться</button>
-        <button id="copyBtn" class="btn btn-secondary" onclick="copyReport(this)" disabled>Скопировать</button>
-      </div>
-    </section>
-
-    <!-- Progress & Stats -->
-    <section class="card">
-      <div class="stats-grid">
-        <div class="stat-box">
-          <div id="statDone" class="stat-val">0 / 41</div>
-          <div class="stat-lbl">Проверено</div>
+      <!-- Banner when report is opened via QR code from console -->
+      <section id="receivedCard" class="card card-highlight hidden">
+        <div class="section-title" style="color: var(--accent);">Отчёт принят по QR-коду с тренажёра</div>
+        <div id="receivedMeta" class="received-meta"></div>
+        <div class="actions-row">
+          <button id="receivedShareBtn" class="btn btn-primary" type="button">Поделиться отчётом</button>
+          <button id="receivedCopyBtn" class="btn btn-secondary ready" type="button">Скопировать лог</button>
         </div>
-        <div class="stat-box">
-          <div id="statOk" class="stat-val ok-text">0</div>
-          <div class="stat-lbl">Доступно</div>
+        <button id="exitViewerBtn" class="btn btn-ghost" type="button">Запустить новый тест на этом устройстве</button>
+      </section>
+
+      <!-- Main Control Card -->
+      <section id="controlCard" class="card">
+        <div class="notice">
+          <strong>Перед стартом:</strong> на телефоне отключите 4G/5G и подключитесь к Wi-Fi зала. На тренажёре Live просто нажмите запуск, а затем отсканируйте QR-код телефоном.
         </div>
-        <div class="stat-box">
-          <div id="statFail" class="stat-val fail-text">0</div>
-          <div class="stat-lbl">Ошибки</div>
+
+        <div class="geo-strip">
+          <span class="geo-label">Локация / Выход в сеть:</span>
+          <span id="geoDisplay" class="geo-value">Определение...</span>
         </div>
-      </div>
-      <div class="progress-track">
-        <div id="progressFill" class="progress-fill"></div>
-      </div>
-    </section>
 
-    <!-- QR Handoff Card (shown after test finishes in normal mode) -->
-    <section id="qrCard" class="card hidden">
-      <div class="qr-header">
-        <div class="section-title">Передать отчёт с тренажёра (QR-код)</div>
-        <div class="filter-pills">
-          <button id="qrModeUrl" class="pill active" onclick="setQrMode('url')">Ссылка на телефон</button>
-          <button id="qrModeText" class="pill" onclick="setQrMode('text')">Текст (коды, офлайн)</button>
+        <div class="input-group">
+          <label class="input-label" for="clientNote">Название клуба или номер тренажёра (необязательно)</label>
+          <input type="text" id="clientNote" class="text-input" placeholder="Например: Клуб Олимп, дорожка №3">
         </div>
-      </div>
-      <div class="qr-layout">
-        <div id="qrBox" class="qr-box"></div>
-        <div class="qr-info">
-          <h3 id="qrTitle">Наведите камеру телефона на QR-код</h3>
-          <p id="qrDesc">На телефоне откроется расшифрованный отчёт с кнопкой «Поделиться» для отправки в Telegram, WhatsApp или на почту.</p>
-          <div id="qrPreview" class="qr-meta"></div>
+
+        <div class="actions actions-3">
+          <button id="startBtn" class="btn btn-primary" type="button">Запустить проверку (41)</button>
+          <button id="shareBtn" class="btn btn-secondary" type="button" disabled>Поделиться</button>
+          <button id="copyBtn" class="btn btn-secondary" type="button" disabled>Скопировать</button>
         </div>
-      </div>
-    </section>
 
-    <!-- Smart Diagnosis & Two-Tab Mini-Guide -->
-    <section id="guideCard" class="card hidden">
-      <div class="toolbar">
-        <div class="section-title">Диагноз и пошаговая проверка</div>
-      </div>
+        <button id="quickGuideBtn" class="btn btn-ghost" type="button">Открыть гайд по диагностике без запуска теста →</button>
+      </section>
 
-      <div id="diagBanner" class="diag-banner status-ok">
-        <div id="diagTitle" class="diag-title"></div>
-        <div id="diagSummary" class="diag-summary"></div>
-      </div>
+      <!-- Progress & Stats -->
+      <section class="card">
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div id="statDone" class="stat-val">0 / 41</div>
+            <div class="stat-lbl">Проверено</div>
+          </div>
+          <div class="stat-box">
+            <div id="statOk" class="stat-val ok-text">0</div>
+            <div class="stat-lbl">Доступно</div>
+          </div>
+          <div class="stat-box">
+            <div id="statFail" class="stat-val fail-text">0</div>
+            <div class="stat-lbl">Ошибки</div>
+          </div>
+        </div>
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </section>
 
-      <div class="role-tabs">
-        <button id="tabClub" class="role-tab active" onclick="setGuideRole('club')">Для сотрудника клуба</button>
-        <button id="tabIt" class="role-tab" onclick="setGuideRole('it')">Для IT-специалиста</button>
-      </div>
+      <!-- QR Handoff Card -->
+      <section id="qrCard" class="card hidden">
+        <div class="qr-header">
+          <div class="section-title">Передать отчёт с тренажёра (QR-код)</div>
+          <div class="filter-pills">
+            <button id="qrModeUrl" class="pill active" type="button">Ссылка на телефон</button>
+            <button id="qrModeText" class="pill" type="button">Текст (коды, офлайн)</button>
+          </div>
+        </div>
+        <div class="qr-layout">
+          <div id="qrBox" class="qr-box"></div>
+          <div class="qr-info">
+            <h3 id="qrTitle">Наведите камеру телефона на QR-код</h3>
+            <p id="qrDesc">На телефоне откроется расшифрованный отчёт с кнопкой «Поделиться» для отправки в Telegram, WhatsApp или на почту.</p>
+            <div id="qrPreview" class="qr-meta"></div>
+          </div>
+        </div>
+      </section>
 
-      <ol id="smartSteps" class="guide-steps"></ol>
+      <!-- Smart Diagnosis Card (appears after test) -->
+      <section id="smartDiagCard" class="card hidden">
+        <div class="toolbar">
+          <div class="section-title">Автодиагноз по результатам теста</div>
+        </div>
 
-      <details class="accordion">
-        <summary>Полный чеклист всех проверок (развернуть по шагам)</summary>
-        <div id="fullChecklist" class="checklist-items"></div>
+        <div id="diagBanner" class="diag-banner status-ok">
+          <div id="diagTitle" class="diag-title"></div>
+          <div id="diagSummary" class="diag-summary"></div>
+        </div>
+
+        <div class="role-tabs">
+          <button id="diagTabClub" class="role-tab active" type="button">Для сотрудника клуба</button>
+          <button id="diagTabIt" class="role-tab" type="button">Для IT-специалиста</button>
+        </div>
+
+        <ol id="smartSteps" class="guide-steps"></ol>
+
+        <details class="accordion accent-summary">
+          <summary>Полный чеклист всех проверок (развернуть)</summary>
+          <div id="diagChecklist" class="checklist-items"></div>
+        </details>
+
+        <button id="openFullGuideBtn" class="btn btn-ghost" type="button">Открыть подробный справочник и требования для IT →</button>
+      </section>
+
+      <!-- Endpoints List -->
+      <section class="card">
+        <div class="toolbar">
+          <div class="section-title">Узлы Technogym Cloud / AWS</div>
+          <div class="filter-pills">
+            <button id="filterAll" class="pill active" type="button">Все (41)</button>
+            <button id="filterFail" class="pill" type="button">Только ошибки (0)</button>
+          </div>
+        </div>
+        <div id="domainList" class="domain-list"></div>
+      </section>
+
+      <!-- Fallback Raw Log -->
+      <details class="raw-log-box">
+        <summary>Текстовый отчёт (для ручного копирования)</summary>
+        <textarea id="rawLogArea" class="raw-textarea" readonly placeholder="Запустите проверку, чтобы сформировать отчёт..."></textarea>
       </details>
-    </section>
 
-    <!-- Endpoints List -->
-    <section class="card">
-      <div class="toolbar">
-        <div class="section-title">Узлы Technogym Cloud / AWS</div>
-        <div class="filter-pills">
-          <button id="filterAll" class="pill active" onclick="setFilter('all')">Все (41)</button>
-          <button id="filterFail" class="pill" onclick="setFilter('fail')">Только ошибки (0)</button>
+    </div>
+
+    <!-- ==================== VIEW 2: STANDALONE GUIDE & TROUBLESHOOTING ==================== -->
+    <div id="view-guide" class="hidden">
+      <section class="card">
+        <h1 class="page-title">Диагностика и поиск неисправностей</h1>
+        <p class="page-subtitle">Выберите вашу роль и симптом — можно пользоваться сразу без запуска сетевого теста.</p>
+
+        <div class="role-tabs">
+          <button id="guideTabClub" class="role-tab active" type="button">Для сотрудника клуба</button>
+          <button id="guideTabIt" class="role-tab" type="button">Для IT-специалиста</button>
         </div>
-      </div>
-      <div id="domainList" class="domain-list"></div>
-    </section>
 
-    <!-- Fallback Raw Log -->
-    <details class="raw-log-box">
-      <summary>Текстовый отчёт (для ручного копирования)</summary>
-      <textarea id="rawLogArea" class="raw-textarea" readonly placeholder="Запустите проверку, чтобы сформировать отчёт..."></textarea>
-    </details>
+        <div id="symptomsContainer"></div>
+      </section>
 
-    <footer id="footerVersion" class="footer">Service Report Diagnostics · v2.0.0</footer>
+      <section class="card">
+        <div class="toolbar">
+          <div class="section-title">Требования к сети и VPN (Technogym Live)</div>
+        </div>
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Параметр</th>
+              <th>Требование</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Домены в VPN</td>
+              <td><span class="mono">*.mywellness.com</span>, <span class="mono">*.technogym.com</span>, подсети AWS</td>
+            </tr>
+            <tr>
+              <td>Веб и API</td>
+              <td><span class="mono">TCP 443</span> (HTTPS, без SSL-инспекции / MITM)</td>
+            </tr>
+            <tr>
+              <td>Телеметрия IoT</td>
+              <td><span class="mono">TCP 8883</span> (MQTT over TLS на <span class="mono">iotcore.mywellness.com</span>)</td>
+            </tr>
+            <tr>
+              <td>Синхронизация времени</td>
+              <td><span class="mono">UDP 123</span> (NTP) — критично для валидации SSL</td>
+            </tr>
+            <tr>
+              <td>DNS на консоли Live</td>
+              <td>По DHCP от локального роутера; <strong>Android Private DNS — Откл.</strong></td>
+            </tr>
+            <tr>
+              <td>VPN-туннель</td>
+              <td>Включён <strong>TCP MSS Clamping</strong> (при проблемах MTU/TLS)</td>
+            </tr>
+          </tbody>
+        </table>
+        <button id="copyItSpecBtn" class="btn btn-secondary ready" type="button">Скопировать ТЗ для IT-специалиста</button>
+      </section>
+
+      <section class="card">
+        <div class="toolbar">
+          <div class="section-title">Интерактивный чеклист проверки</div>
+        </div>
+        <div id="standaloneChecklist" class="checklist-items"></div>
+        <button id="backToCheckFromGuide" class="btn btn-ghost" type="button">← Вернуться к проверке сети</button>
+      </section>
+    </div>
+
+    <!-- ==================== VIEW 3: HOW-TO & CODE REFERENCE ==================== -->
+    <div id="view-howto" class="hidden">
+      <section class="card">
+        <h1 class="page-title">Как правильно провести тест</h1>
+        <p class="page-subtitle">Чтобы точно понять, где обрыв — на роутере или на самом тренажёре — проведите проверку в два шага.</p>
+
+        <div class="section-title" style="margin-bottom: 8px; color: var(--accent);">Шаг А · Проверка со смартфона (проверка роутера и VPN)</div>
+        <ol class="guide-steps" style="margin-bottom: 18px;">
+          <li><strong>Отключите мобильный интернет (4G/5G)</strong> на смартфоне, чтобы трафик гарантированно не шёл через сотового оператора.</li>
+          <li><strong>Подключитесь к Wi-Fi сети зала</strong>, в которой работают тренажёры.</li>
+          <li><strong>Откройте раздел «Проверка сети»</strong>, укажите название клуба и нажмите «Запустить проверку».</li>
+          <li><strong>Нажмите «Поделиться»</strong> и отправьте отчёт сервисному инженеру в Telegram, WhatsApp или на почту.</li>
+        </ol>
+
+        <div class="section-title" style="margin-bottom: 8px; color: var(--accent);">Шаг Б · Проверка с консоли Technogym Live + QR-код</div>
+        <ol class="guide-steps">
+          <li><strong>Откройте встроенный браузер</strong> на экране тренажёра Live и перейдите по этой же ссылке.</li>
+          <li><strong>Нажмите «Запустить проверку»</strong> и дождитесь окончания теста (15–30 секунд).</li>
+          <li><strong>Отсканируйте появившийся QR-код камерой телефона</strong> — на телефоне откроется расшифрованный отчёт с консоли.</li>
+          <li><strong>Нажмите «Поделиться отчётом» на телефоне</strong> — записывать экран на видео не нужно.</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <div class="toolbar">
+          <div class="section-title">Справочник кодов узлов (#01–#41)</div>
+        </div>
+        <p class="page-subtitle" style="margin-bottom: 8px;">Используется для расшифровки компактного офлайн QR-кода (TO — таймаут, FL — отказ DNS/SSL).</p>
+        <div id="refGrid" class="ref-grid"></div>
+        <button id="backToCheckFromHowto" class="btn btn-ghost" type="button">← Вернуться к проверке сети</button>
+      </section>
+    </div>
+
+    <footer id="footerVersion" class="footer">Service Report Diagnostics · v2.1.0</footer>
   </main>
 
-  <!-- Local vendored QR generator (zero external CDN dependency) -->
   <script src="vendor/qrcode.js"></script>
   <script>
-    var APP_VERSION = "v2.0.0";
+    (function() {
+      "use strict";
 
-    // optional: true — узлы, которые часто отдают KO/Timeout даже в эталонном тесте Technogym
-    var ENDPOINTS = [
-      { id: 1,  url: "https://www.mywellness.com/robots.txt", critical: true },
-      { id: 2,  url: "https://account.mywellness.com", critical: true },
-      { id: 3,  url: "https://achievement.mywellness.com", critical: false },
-      { id: 4,  url: "https://ai-api.mywellness.com", critical: false },
-      { id: 5,  url: "https://api.mywellness.com", critical: true },
-      { id: 6,  url: "https://api-exerp.mywellness.com", critical: false },
-      { id: 7,  url: "https://assessment.mywellness.com", critical: false },
-      { id: 8,  url: "https://booking.mywellness.com/say33", critical: false },
-      { id: 9,  url: "https://calendar.mywellness.com", critical: false },
-      { id: 10, url: "https://challenges.mywellness.com", critical: false },
-      { id: 11, url: "https://cms.mywellness.com", critical: false },
-      { id: 12, url: "https://coach.mywellness.com", optional: true },
-      { id: 13, url: "https://comm.mywellness.com", critical: false },
-      { id: 14, url: "https://contentrelease.mywellness.com", optional: true },
-      { id: 15, url: "https://core.mywellness.com", critical: true },
-      { id: 16, url: "https://core.mywellness.com/say33", critical: true },
-      { id: 17, url: "https://eam.mywellness.com", critical: false },
-      { id: 18, url: "https://eam-api.mywellness.com", critical: false },
-      { id: 19, url: "https://fuse.mywellness.com", critical: false },
-      { id: 20, url: "https://iotcore.mywellness.com", critical: true },
-      { id: 21, url: "https://leaderboards.mywellness.com", critical: false },
-      { id: 22, url: "https://meet.mywellness.com", critical: false },
-      { id: 23, url: "https://oid.mywellness.com", critical: true },
-      { id: 24, url: "https://pay.mywellness.com", critical: false },
-      { id: 25, url: "https://races.mywellness.com", critical: false },
-      { id: 26, url: "https://reporting.mywellness.com", critical: false },
-      { id: 27, url: "https://services.mywellness.com", critical: true },
-      { id: 28, url: "https://storeapi.mywellness.com", critical: false },
-      { id: 29, url: "https://training.mywellness.com", critical: false },
-      { id: 30, url: "https://ud.mywellness.com", critical: true },
-      { id: 31, url: "https://workout.mywellness.com", critical: true },
-      { id: 32, url: "https://workout.mywellness.com/say33", critical: true },
-      { id: 33, url: "https://onedevice-api.technogym.com/api/v1/status", critical: true },
-      { id: 34, url: "https://www.technogym.com", critical: false },
-      { id: 35, url: "https://www.worldweatheronline.com", critical: false },
-      { id: 36, url: "https://google.com", critical: false },
-      { id: 37, url: "https://googleapis.com", critical: false },
-      { id: 38, url: "https://google-analytics.com", optional: true },
-      { id: 39, url: "https://facebook.com", optional: true },
-      { id: 40, url: "https://fbcdn.net", optional: true },
-      { id: 41, url: "https://amazonaws.com", optional: true }
-    ];
+      var APP_VERSION = "v2.1.0";
 
-    var results = [];
-    var isRunning = false;
-    var isViewerMode = false;
-    var hasCompletedTest = false;
-    var currentFilter = "all";
-    var currentQrMode = "url";
-    var currentGuideRole = "club";
-    var testTimestamp = "";
-    var reportDeviceLabel = "";
-
-    var clientGeo = {
-      location: "Не определена",
-      ip: "н/д",
-      isp: "н/д",
-      timezone: "н/д"
-    };
-
-    try {
-      clientGeo.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "н/д";
-    } catch (e) {}
-
-    function pad2(n) {
-      return n < 10 ? "0" + n : "" + n;
-    }
-
-    function shortDeviceFromUA(ua) {
-      ua = ua || navigator.userAgent || "";
-      var os = "Unknown OS";
-      var mAnd = ua.match(/Android\s+([0-9.]+)/i);
-      var mIos = ua.match(/OS\s+([0-9_]+)\s+like Mac/i);
-      if (mAnd) os = "Android " + mAnd[1];
-      else if (mIos) os = "iOS " + mIos[1].replace(/_/g, ".");
-      else if (/Windows NT 10/i.test(ua)) os = "Windows 10/11";
-      else if (/Mac OS X/i.test(ua)) os = "macOS";
-      else if (/Linux/i.test(ua)) os = "Linux";
-
-      var br = "";
-      var mEdg = ua.match(/Edg\/([0-9]+)/i);
-      var mChr = ua.match(/Chrome\/([0-9]+)/i);
-      var mSaf = ua.match(/Version\/([0-9.]+).*Safari/i);
-      if (mEdg) br = "Edge " + mEdg[1];
-      else if (mChr) br = "Chrome " + mChr[1];
-      else if (mSaf) br = "Safari " + mSaf[1];
-
-      return br ? (os + " / " + br) : os;
-    }
-
-    function toBase64Url(str) {
-      var utf8 = unescape(encodeURIComponent(str));
-      return btoa(utf8).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-    }
-
-    function fromBase64Url(b64) {
-      var pad = b64.replace(/-/g, "+").replace(/_/g, "/");
-      while (pad.length % 4) pad += "=";
-      return decodeURIComponent(escape(atob(pad)));
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&")
-        .replace(/</g, "<")
-        .replace(/>/g, ">")
-        .replace(/"/g, """);
-    }
-
-    document.getElementById("versionBadge").textContent = "NetCheck " + APP_VERSION;
-    document.getElementById("footerVersion").textContent = "Service Report Diagnostics · " + APP_VERSION;
-    document.getElementById("startBtn").textContent = "Запустить проверку (" + ENDPOINTS.length + ")";
-    document.getElementById("filterAll").textContent = "Все (" + ENDPOINTS.length + ")";
-
-    function fetchJsonTimeout(url, ms) {
-      return new Promise(function(resolve, reject) {
-        var done = false;
-        var timer = setTimeout(function() {
-          if (!done) {
-            done = true;
-            reject(new Error("timeout"));
-          }
-        }, ms);
-
-        fetch(url, { cache: "no-store" })
-          .then(function(res) {
-            if (!res.ok) throw new Error("HTTP " + res.status);
-            return res.json();
-          })
-          .then(function(data) {
-            if (!done) {
-              done = true;
-              clearTimeout(timer);
-              resolve(data);
-            }
-          })
-          .catch(function(err) {
-            if (!done) {
-              done = true;
-              clearTimeout(timer);
-              reject(err);
-            }
-          });
-      });
-    }
-
-    function detectLocation() {
-      var geoEl = document.getElementById("geoDisplay");
-      geoEl.textContent = "Определение...";
-
-      return fetchJsonTimeout("https://ipwho.is/?lang=ru", 4000)
-        .then(function(d) {
-          if (!d || d.success === false) throw new Error("ipwho fail");
-          var parts = [d.city, d.region, d.country].filter(Boolean);
-          clientGeo.location = parts.join(", ") || "Не определена";
-          clientGeo.ip = d.ip || "н/д";
-          clientGeo.isp = (d.connection && (d.connection.isp || d.connection.org)) || "н/д";
-        })
-        .catch(function() {
-          return fetchJsonTimeout("https://get.geojs.io/v1/ip/geo.json", 4000)
-            .then(function(d) {
-              var parts = [d.city, d.region, d.country].filter(Boolean);
-              clientGeo.location = parts.join(", ") || "Не определена";
-              clientGeo.ip = d.ip || "н/д";
-              clientGeo.isp = d.organization_name || "н/д";
-            });
-        })
-        .catch(function() {
-          return fetchJsonTimeout("https://ipapi.co/json/", 4000)
-            .then(function(d) {
-              if (d && d.error) throw new Error("ipapi limit");
-              var parts = [d.city, d.region, d.country_name].filter(Boolean);
-              clientGeo.location = parts.join(", ") || "Не определена";
-              clientGeo.ip = d.ip || "н/д";
-              clientGeo.isp = d.org || "н/д";
-            });
-        })
-        .catch(function() {
-          clientGeo.location = "Не определена (TZ: " + clientGeo.timezone + ")";
-        })
-        .then(function() {
-          var summary = clientGeo.location;
-          if (clientGeo.ip !== "н/д") {
-            summary += " · " + clientGeo.ip;
-          }
-          geoEl.textContent = summary;
-          document.getElementById("rawLogArea").value = buildReportText();
-          if (hasCompletedTest && !isViewerMode) renderQrSection();
-        });
-    }
-
-    function initList() {
-      var container = document.getElementById("domainList");
-      container.innerHTML = "";
-      results = [];
-
-      for (var i = 0; i < ENDPOINTS.length; i++) {
-        var ep = ENDPOINTS[i];
-        var label = ep.url.replace(/^https?:\/\//, "");
-        results.push({
-          id: ep.id,
-          url: ep.url,
-          label: label,
-          critical: !!ep.critical,
-          optional: !!ep.optional,
-          status: "idle",    // idle | wait | ok | timeout | fail
-          detail: "Ожидание",
-          ms: null
-        });
-
-        var row = document.createElement("div");
-        row.className = "domain-item";
-        row.id = "row-" + i;
-        row.innerHTML =
-          '<div class="domain-left">' +
-            '<span class="domain-code">#' + pad2(ep.id) + '</span>' +
-            '<span class="domain-name">' + escapeHtml(label) + '</span>' +
-          '</div>' +
-          '<span id="badge-' + i + '" class="badge badge-idle">Ожидание</span>';
-        container.appendChild(row);
-      }
-    }
-
-    function setFilter(mode) {
-      currentFilter = mode;
-      document.getElementById("filterAll").className = mode === "all" ? "pill active" : "pill";
-      document.getElementById("filterFail").className = mode === "fail" ? "pill active" : "pill";
-      applyFilter();
-    }
-
-    function applyFilter() {
-      for (var i = 0; i < results.length; i++) {
-        var row = document.getElementById("row-" + i);
-        if (!row) continue;
-        var isErr = results[i].status === "fail" || results[i].status === "timeout";
-        if (currentFilter === "fail" && !isErr) {
-          row.classList.add("hidden");
-        } else {
-          row.classList.remove("hidden");
-        }
-      }
-    }
-
-    function checkSingle(index) {
-      return new Promise(function(resolve) {
-        var targetUrl = ENDPOINTS[index].url;
-        var badge = document.getElementById("badge-" + index);
-        results[index].status = "wait";
-        badge.className = "badge badge-wait";
-        badge.textContent = "Проверка...";
-
-        var start = Date.now();
-        var finished = false;
-        var timeoutMs = 5000;
-
-        var timer = setTimeout(function() {
-          if (!finished) {
-            finished = true;
-            results[index].status = "timeout";
-            results[index].detail = "TIMEOUT (>5s)";
-            badge.className = "badge badge-fail";
-            badge.textContent = "TIMEOUT (>5s)";
-            resolve();
-          }
-        }, timeoutMs);
-
-        fetch(targetUrl, {
-          mode: "no-cors",
-          cache: "no-store"
-        })
-          .then(function() {
-            if (!finished) {
-              finished = true;
-              clearTimeout(timer);
-              var elapsed = Date.now() - start;
-              results[index].status = "ok";
-              results[index].ms = elapsed;
-              results[index].detail = "OK (" + elapsed + " ms)";
-              badge.className = "badge badge-ok";
-              badge.textContent = "OK · " + elapsed + " ms";
-              resolve();
-            }
-          })
-          .catch(function(err) {
-            if (!finished) {
-              finished = true;
-              clearTimeout(timer);
-              var msg = (err && err.message) ? err.message : "Network/SSL Error";
-              results[index].status = "fail";
-              results[index].detail = "FAIL (" + msg + ")";
-              badge.className = "badge badge-fail";
-              badge.textContent = "FAIL";
-              resolve();
-            }
-          });
-      });
-    }
-
-    function updateProgress() {
-      var done = 0;
-      var ok = 0;
-      var err = 0;
-
-      for (var i = 0; i < results.length; i++) {
-        if (results[i].status === "ok") {
-          done++;
-          ok++;
-        } else if (results[i].status === "fail" || results[i].status === "timeout") {
-          done++;
-          err++;
-        }
-      }
-
-      document.getElementById("statDone").textContent = done + " / " + ENDPOINTS.length;
-      document.getElementById("statOk").textContent = ok;
-      document.getElementById("statFail").textContent = err;
-      document.getElementById("progressFill").style.width = Math.round((done / ENDPOINTS.length) * 100) + "%";
-      document.getElementById("filterFail").textContent = "Только ошибки (" + err + ")";
-
-      applyFilter();
-      document.getElementById("rawLogArea").value = buildReportText();
-    }
-
-    function startDiagnostics() {
-      if (isRunning) return;
-      isRunning = true;
-      hasCompletedTest = false;
-      reportDeviceLabel = shortDeviceFromUA(navigator.userAgent);
-
-      var startBtn = document.getElementById("startBtn");
-      var copyBtn = document.getElementById("copyBtn");
-      var shareBtn = document.getElementById("shareBtn");
-
-      startBtn.disabled = true;
-      startBtn.textContent = "Выполняется проверка...";
-      copyBtn.disabled = true;
-      copyBtn.className = "btn btn-secondary";
-      copyBtn.textContent = "Скопировать";
-      shareBtn.disabled = true;
-      shareBtn.className = "btn btn-secondary";
-      shareBtn.textContent = "Поделиться";
-
-      document.getElementById("qrCard").classList.add("hidden");
-      document.getElementById("guideCard").classList.add("hidden");
-
-      testTimestamp = new Date().toLocaleString("ru-RU");
-      initList();
-      updateProgress();
-
-      var geoPromise = detectLocation();
-
-      var cursor = 0;
-      var concurrency = 6;
-
-      function worker() {
-        if (cursor >= ENDPOINTS.length) {
-          return Promise.resolve();
-        }
-        var idx = cursor++;
-        return checkSingle(idx).then(function() {
-          updateProgress();
-          return worker();
-        });
-      }
-
-      var workers = [geoPromise];
-      for (var w = 0; w < concurrency; w++) {
-        workers.push(worker());
-      }
-
-      Promise.all(workers).then(function() {
-        isRunning = false;
-        hasCompletedTest = true;
-        startBtn.disabled = false;
-        startBtn.textContent = "Повторить проверку";
-        copyBtn.disabled = false;
-        copyBtn.className = "btn btn-secondary ready";
-        shareBtn.disabled = false;
-        shareBtn.className = "btn btn-secondary ready";
-
-        document.getElementById("rawLogArea").value = buildReportText();
-        renderQrSection();
-        renderGuide();
-      });
-    }
-
-    /* ================= QR ENCODING & DECODING ================= */
-
-    function buildStatusVector() {
-      var chars = [];
-      for (var i = 0; i < results.length; i++) {
-        var st = results[i].status;
-        if (st === "ok") chars.push("1");
-        else if (st === "timeout") chars.push("T");
-        else if (st === "fail") chars.push("F");
-        else chars.push("0");
-      }
-      return chars.join("");
-    }
-
-    function buildCompactShareUrl() {
-      var note = document.getElementById("clientNote").value.trim().slice(0, 36);
-      var locShort = (clientGeo.location || "").slice(0, 40);
-      var ispShort = (clientGeo.isp || "").slice(0, 28);
-      var payloadObj = {
-        v: 2,
-        t: testTimestamp || new Date().toLocaleString("ru-RU"),
-        n: note,
-        l: locShort,
-        ip: clientGeo.ip !== "н/д" ? clientGeo.ip : "",
-        isp: ispShort !== "н/д" ? ispShort : "",
-        tz: clientGeo.timezone !== "н/д" ? clientGeo.timezone : "",
-        d: reportDeviceLabel || shortDeviceFromUA(navigator.userAgent),
-        s: buildStatusVector()
-      };
-      var base = window.location.href.split("#")[0].split("?")[0];
-      return base + "#r=" + toBase64Url(JSON.stringify(payloadObj));
-    }
-
-    function buildCompactOfflineText() {
-      var okCount = 0;
-      var toIds = [];
-      var flIds = [];
-
-      for (var i = 0; i < results.length; i++) {
-        if (results[i].status === "ok") okCount++;
-        else if (results[i].status === "timeout") toIds.push(results[i].id);
-        else if (results[i].status === "fail") flIds.push(results[i].id);
-      }
-
-      var note = document.getElementById("clientNote").value.trim().slice(0, 32);
-      var lines = [
-        "MW " + APP_VERSION + " | " + (testTimestamp || ""),
-        (note ? ("Obj: " + note) : "Obj: -"),
-        "Geo: " + clientGeo.location + (clientGeo.ip !== "н/д" ? (" (" + clientGeo.ip + ")") : ""),
-        "ISP: " + clientGeo.isp,
-        "Dev: " + (reportDeviceLabel || shortDeviceFromUA(navigator.userAgent)),
-        "OK: " + okCount + "/" + ENDPOINTS.length + " | TO:" + toIds.length + " FL:" + flIds.length
+      var ENDPOINTS = [
+        { id: 1,  url: "https://www.mywellness.com/robots.txt", critical: true },
+        { id: 2,  url: "https://account.mywellness.com", critical: true },
+        { id: 3,  url: "https://achievement.mywellness.com", critical: false },
+        { id: 4,  url: "https://ai-api.mywellness.com", critical: false },
+        { id: 5,  url: "https://api.mywellness.com", critical: true },
+        { id: 6,  url: "https://api-exerp.mywellness.com", critical: false },
+        { id: 7,  url: "https://assessment.mywellness.com", critical: false },
+        { id: 8,  url: "https://booking.mywellness.com/say33", critical: false },
+        { id: 9,  url: "https://calendar.mywellness.com", critical: false },
+        { id: 10, url: "https://challenges.mywellness.com", critical: false },
+        { id: 11, url: "https://cms.mywellness.com", critical: false },
+        { id: 12, url: "https://coach.mywellness.com", optional: true },
+        { id: 13, url: "https://comm.mywellness.com", critical: false },
+        { id: 14, url: "https://contentrelease.mywellness.com", optional: true },
+        { id: 15, url: "https://core.mywellness.com", critical: true },
+        { id: 16, url: "https://core.mywellness.com/say33", critical: true },
+        { id: 17, url: "https://eam.mywellness.com", critical: false },
+        { id: 18, url: "https://eam-api.mywellness.com", critical: false },
+        { id: 19, url: "https://fuse.mywellness.com", critical: false },
+        { id: 20, url: "https://iotcore.mywellness.com", critical: true },
+        { id: 21, url: "https://leaderboards.mywellness.com", critical: false },
+        { id: 22, url: "https://meet.mywellness.com", critical: false },
+        { id: 23, url: "https://oid.mywellness.com", critical: true },
+        { id: 24, url: "https://pay.mywellness.com", critical: false },
+        { id: 25, url: "https://races.mywellness.com", critical: false },
+        { id: 26, url: "https://reporting.mywellness.com", critical: false },
+        { id: 27, url: "https://services.mywellness.com", critical: true },
+        { id: 28, url: "https://storeapi.mywellness.com", critical: false },
+        { id: 29, url: "https://training.mywellness.com", critical: false },
+        { id: 30, url: "https://ud.mywellness.com", critical: true },
+        { id: 31, url: "https://workout.mywellness.com", critical: true },
+        { id: 32, url: "https://workout.mywellness.com/say33", critical: true },
+        { id: 33, url: "https://onedevice-api.technogym.com/api/v1/status", critical: true },
+        { id: 34, url: "https://www.technogym.com", critical: false },
+        { id: 35, url: "https://www.worldweatheronline.com", critical: false },
+        { id: 36, url: "https://google.com", critical: false },
+        { id: 37, url: "https://googleapis.com", critical: false },
+        { id: 38, url: "https://google-analytics.com", optional: true },
+        { id: 39, url: "https://facebook.com", optional: true },
+        { id: 40, url: "https://fbcdn.net", optional: true },
+        { id: 41, url: "https://amazonaws.com", optional: true }
       ];
-      if (toIds.length > 0) lines.push("TO: " + toIds.join(","));
-      if (flIds.length > 0) lines.push("FL: " + flIds.join(","));
-      return lines.join("\n");
-    }
 
-    function renderQrSvg(text) {
-      if (typeof qrcode === "undefined") {
-        return '<div style="padding:16px;color:#111;font-size:12px;text-align:center;">Библиотека vendor/qrcode.js не загружена</div>';
-      }
-      if (qrcode.stringToBytesFuncs && qrcode.stringToBytesFuncs["UTF-8"]) {
-        qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
-      }
-      var qr = qrcode(0, "L");
-      qr.addData(text);
-      qr.make();
-      var count = qr.getModuleCount();
-      var margin = 4;
-      var size = count + margin * 2;
-      var rects = ['<rect width="100%" height="100%" fill="#ffffff"/>'];
-      for (var r = 0; r < count; r++) {
-        for (var c = 0; c < count; c++) {
-          if (qr.isDark(r, c)) {
-            rects.push('<rect x="' + (c + margin) + '" y="' + (r + margin) + '" width="1" height="1" fill="#000000"/>');
-          }
-        }
-      }
-      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" shape-rendering="crispEdges">' + rects.join("") + '</svg>';
-    }
+      var results = [];
+      var isRunning = false;
+      var isViewerMode = false;
+      var hasCompletedTest = false;
+      var currentFilter = "all";
+      var currentQrMode = "url";
+      var currentGuideRole = "club";
+      var testTimestamp = "";
+      var reportDeviceLabel = "";
 
-    function setQrMode(mode) {
-      currentQrMode = mode;
-      document.getElementById("qrModeUrl").className = mode === "url" ? "pill active" : "pill";
-      document.getElementById("qrModeText").className = mode === "text" ? "pill active" : "pill";
-      renderQrSection();
-    }
-
-    function renderQrSection() {
-      var qrCard = document.getElementById("qrCard");
-      qrCard.classList.remove("hidden");
-
-      var qrBox = document.getElementById("qrBox");
-      var qrTitle = document.getElementById("qrTitle");
-      var qrDesc = document.getElementById("qrDesc");
-      var qrPreview = document.getElementById("qrPreview");
-
-      var compactSummary = buildCompactOfflineText();
-
-      if (currentQrMode === "url") {
-        var shareUrl = buildCompactShareUrl();
-        qrBox.innerHTML = renderQrSvg(shareUrl);
-        qrTitle.textContent = "Отсканируйте камерой телефона";
-        qrDesc.textContent = "На телефоне сразу откроется расшифрованный отчёт с кнопкой «Поделиться» для отправки в Telegram, WhatsApp или на почту.";
-        qrPreview.textContent = compactSummary;
-      } else {
-        qrBox.innerHTML = renderQrSvg(compactSummary);
-        qrTitle.textContent = "Компактный текст (работает офлайн)";
-        qrDesc.textContent = "Содержит локацию и короткие числовые коды (#) недоступных узлов (TO — таймаут, FL — отказ). Отправьте считанный текст инженеру.";
-        qrPreview.textContent = compactSummary;
-      }
-    }
-
-    function tryLoadFromHash() {
-      var hash = window.location.hash || "";
-      if (hash.indexOf("#r=") !== 0) return false;
+      var clientGeo = {
+        location: "Не определена",
+        ip: "н/д",
+        isp: "н/д",
+        timezone: "н/д"
+      };
 
       try {
-        var encoded = hash.slice(3);
-        var data = JSON.parse(fromBase64Url(encoded));
-        if (!data || !data.s) return false;
+        clientGeo.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "н/д";
+      } catch (e) {}
 
-        isViewerMode = true;
-        hasCompletedTest = true;
-        testTimestamp = data.t || "";
-        clientGeo.location = data.l || "Не определена";
-        clientGeo.ip = data.ip || "н/д";
-        clientGeo.isp = data.isp || "н/д";
-        clientGeo.timezone = data.tz || "н/д";
-        reportDeviceLabel = data.d || "Устройство тренажёра";
-        document.getElementById("clientNote").value = data.n || "";
+      function $(id) {
+        return document.getElementById(id);
+      }
 
-        initList();
+      function pad2(n) {
+        return n < 10 ? "0" + n : "" + n;
+      }
 
-        var vec = data.s;
+      function setClass(el, cls, on) {
+        if (!el) return;
+        if (on) el.classList.add(cls);
+        else el.classList.remove(cls);
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&")
+          .replace(/</g, "<")
+          .replace(/>/g, ">")
+          .replace(/"/g, """);
+      }
+
+      function shortDeviceFromUA(ua) {
+        ua = ua || navigator.userAgent || "";
+        var os = "Unknown OS";
+        var mAnd = ua.match(/Android\s+([0-9.]+)/i);
+        var mIos = ua.match(/OS\s+([0-9_]+)\s+like Mac/i);
+        if (mAnd) os = "Android " + mAnd[1];
+        else if (mIos) os = "iOS " + mIos[1].replace(/_/g, ".");
+        else if (/Windows NT 10/i.test(ua)) os = "Windows 10/11";
+        else if (/Mac OS X/i.test(ua)) os = "macOS";
+        else if (/Linux/i.test(ua)) os = "Linux";
+
+        var br = "";
+        var mEdg = ua.match(/Edg\/([0-9]+)/i);
+        var mChr = ua.match(/Chrome\/([0-9]+)/i);
+        var mSaf = ua.match(/Version\/([0-9.]+).*Safari/i);
+        if (mEdg) br = "Edge " + mEdg[1];
+        else if (mChr) br = "Chrome " + mChr[1];
+        else if (mSaf) br = "Safari " + mSaf[1];
+
+        return br ? (os + " / " + br) : os;
+      }
+
+      function toBase64Url(str) {
+        var utf8 = unescape(encodeURIComponent(str));
+        return btoa(utf8).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      }
+
+      function fromBase64Url(b64) {
+        var pad = b64.replace(/-/g, "+").replace(/_/g, "/");
+        while (pad.length % 4) pad += "=";
+        return decodeURIComponent(escape(atob(pad)));
+      }
+
+      /* ================= NAVIGATION & BURGER DRAWER ================= */
+
+      function openDrawer() {
+        $("drawer").classList.add("open");
+        $("drawerBackdrop").classList.add("open");
+        document.body.classList.add("drawer-open");
+      }
+
+      function closeDrawer() {
+        $("drawer").classList.remove("open");
+        $("drawerBackdrop").classList.remove("open");
+        document.body.classList.remove("drawer-open");
+      }
+
+      function switchView(viewName) {
+        var views = ["check", "guide", "howto"];
+        for (var i = 0; i < views.length; i++) {
+          var vEl = $("view-" + views[i]);
+          setClass(vEl, "hidden", views[i] !== viewName);
+        }
+
+        var navBtns = document.querySelectorAll("[data-nav]");
+        for (var j = 0; j < navBtns.length; j++) {
+          var isMatch = navBtns[j].getAttribute("data-nav") === viewName;
+          setClass(navBtns[j], "active", isMatch);
+        }
+
+        closeDrawer();
+        window.scrollTo(0, 0);
+      }
+
+      /* ================= GEOIP DETECTION ================= */
+
+      function fetchJsonTimeout(url, ms) {
+        return new Promise(function(resolve, reject) {
+          var done = false;
+          var timer = setTimeout(function() {
+            if (!done) {
+              done = true;
+              reject(new Error("timeout"));
+            }
+          }, ms);
+
+          fetch(url, { cache: "no-store" })
+            .then(function(res) {
+              if (!res.ok) throw new Error("HTTP " + res.status);
+              return res.json();
+            })
+            .then(function(data) {
+              if (!done) {
+                done = true;
+                clearTimeout(timer);
+                resolve(data);
+              }
+            })
+            .catch(function(err) {
+              if (!done) {
+                done = true;
+                clearTimeout(timer);
+                reject(err);
+              }
+            });
+        });
+      }
+
+      function detectLocation() {
+        var geoEl = $("geoDisplay");
+        geoEl.textContent = "Определение...";
+
+        return fetchJsonTimeout("https://ipwho.is/?lang=ru", 4000)
+          .then(function(d) {
+            if (!d || d.success === false) throw new Error("ipwho fail");
+            var parts = [d.city, d.region, d.country].filter(Boolean);
+            clientGeo.location = parts.join(", ") || "Не определена";
+            clientGeo.ip = d.ip || "н/д";
+            clientGeo.isp = (d.connection && (d.connection.isp || d.connection.org)) || "н/д";
+          })
+          .catch(function() {
+            return fetchJsonTimeout("https://get.geojs.io/v1/ip/geo.json", 4000)
+              .then(function(d) {
+                var parts = [d.city, d.region, d.country].filter(Boolean);
+                clientGeo.location = parts.join(", ") || "Не определена";
+                clientGeo.ip = d.ip || "н/д";
+                clientGeo.isp = d.organization_name || "н/д";
+              });
+          })
+          .catch(function() {
+            return fetchJsonTimeout("https://ipapi.co/json/", 4000)
+              .then(function(d) {
+                if (d && d.error) throw new Error("ipapi limit");
+                var parts = [d.city, d.region, d.country_name].filter(Boolean);
+                clientGeo.location = parts.join(", ") || "Не определена";
+                clientGeo.ip = d.ip || "н/д";
+                clientGeo.isp = d.org || "н/д";
+              });
+          })
+          .catch(function() {
+            clientGeo.location = "Не определена (TZ: " + clientGeo.timezone + ")";
+          })
+          .then(function() {
+            var summary = clientGeo.location;
+            if (clientGeo.ip !== "н/д") {
+              summary += " · " + clientGeo.ip;
+            }
+            geoEl.textContent = summary;
+            $("rawLogArea").value = buildReportText();
+            if (hasCompletedTest && !isViewerMode) renderQrSection();
+          });
+      }
+
+      /* ================= ENDPOINT CHECKER ================= */
+
+      function initList() {
+        var container = $("domainList");
+        container.innerHTML = "";
+        results = [];
+
         for (var i = 0; i < ENDPOINTS.length; i++) {
-          var ch = vec.charAt(i);
-          var badge = document.getElementById("badge-" + i);
-          if (ch === "1") {
-            results[i].status = "ok";
-            results[i].detail = "OK";
-            badge.className = "badge badge-ok";
-            badge.textContent = "OK";
-          } else if (ch === "T") {
-            results[i].status = "timeout";
-            results[i].detail = "TIMEOUT (>5s)";
-            badge.className = "badge badge-fail";
-            badge.textContent = "TIMEOUT (>5s)";
-          } else if (ch === "F") {
-            results[i].status = "fail";
-            results[i].detail = "FAIL";
-            badge.className = "badge badge-fail";
-            badge.textContent = "FAIL";
-          } else {
-            results[i].status = "idle";
-            results[i].detail = "Не проверено";
-            badge.className = "badge badge-idle";
-            badge.textContent = "н/д";
+          var ep = ENDPOINTS[i];
+          var label = ep.url.replace(/^https?:\/\//, "");
+          results.push({
+            id: ep.id,
+            url: ep.url,
+            label: label,
+            critical: !!ep.critical,
+            optional: !!ep.optional,
+            status: "idle",
+            detail: "Ожидание",
+            ms: null
+          });
+
+          var row = document.createElement("div");
+          row.className = "domain-item";
+          row.id = "row-" + i;
+          row.innerHTML =
+            '<div class="domain-left">' +
+              '<span class="domain-code">#' + pad2(ep.id) + '</span>' +
+              '<span class="domain-name">' + escapeHtml(label) + '</span>' +
+            '</div>' +
+            '<span id="badge-' + i + '" class="badge badge-idle">Ожидание</span>';
+          container.appendChild(row);
+        }
+      }
+
+      function renderReferenceGrid() {
+        var grid = $("refGrid");
+        grid.innerHTML = "";
+        for (var i = 0; i < ENDPOINTS.length; i++) {
+          var ep = ENDPOINTS[i];
+          var div = document.createElement("div");
+          div.className = "ref-row";
+          var optNote = ep.optional ? " (опц.)" : "";
+          div.innerHTML =
+            '<span class="domain-code">#' + pad2(ep.id) + '</span>' +
+            '<span>' + escapeHtml(ep.url.replace(/^https?:\/\//, "") + optNote) + '</span>';
+          grid.appendChild(div);
+        }
+      }
+
+      function setFilter(mode) {
+        currentFilter = mode;
+        setClass($("filterAll"), "active", mode === "all");
+        setClass($("filterFail"), "active", mode === "fail");
+        applyFilter();
+      }
+
+      function applyFilter() {
+        for (var i = 0; i < results.length; i++) {
+          var row = $("row-" + i);
+          if (!row) continue;
+          var isErr = results[i].status === "fail" || results[i].status === "timeout";
+          setClass(row, "hidden", currentFilter === "fail" && !isErr);
+        }
+      }
+
+      function checkSingle(index) {
+        return new Promise(function(resolve) {
+          var targetUrl = ENDPOINTS[index].url;
+          var badge = $("badge-" + index);
+          results[index].status = "wait";
+          badge.className = "badge badge-wait";
+          badge.textContent = "Проверка...";
+
+          var start = Date.now();
+          var finished = false;
+          var timeoutMs = 5000;
+
+          var timer = setTimeout(function() {
+            if (!finished) {
+              finished = true;
+              results[index].status = "timeout";
+              results[index].detail = "TIMEOUT (>5s)";
+              badge.className = "badge badge-fail";
+              badge.textContent = "TIMEOUT (>5s)";
+              resolve();
+            }
+          }, timeoutMs);
+
+          fetch(targetUrl, {
+            mode: "no-cors",
+            cache: "no-store"
+          })
+            .then(function() {
+              if (!finished) {
+                finished = true;
+                clearTimeout(timer);
+                var elapsed = Date.now() - start;
+                results[index].status = "ok";
+                results[index].ms = elapsed;
+                results[index].detail = "OK (" + elapsed + " ms)";
+                badge.className = "badge badge-ok";
+                badge.textContent = "OK · " + elapsed + " ms";
+                resolve();
+              }
+            })
+            .catch(function(err) {
+              if (!finished) {
+                finished = true;
+                clearTimeout(timer);
+                var msg = (err && err.message) ? err.message : "Network/SSL Error";
+                results[index].status = "fail";
+                results[index].detail = "FAIL (" + msg + ")";
+                badge.className = "badge badge-fail";
+                badge.textContent = "FAIL";
+                resolve();
+              }
+            });
+        });
+      }
+
+      function updateProgress() {
+        var done = 0;
+        var ok = 0;
+        var err = 0;
+
+        for (var i = 0; i < results.length; i++) {
+          if (results[i].status === "ok") {
+            done++;
+            ok++;
+          } else if (results[i].status === "fail" || results[i].status === "timeout") {
+            done++;
+            err++;
           }
         }
 
-        document.getElementById("controlCard").classList.add("hidden");
-        document.getElementById("qrCard").classList.add("hidden");
-        document.getElementById("receivedCard").classList.remove("hidden");
+        $("statDone").textContent = done + " / " + ENDPOINTS.length;
+        $("statOk").textContent = ok;
+        $("statFail").textContent = err;
+        $("progressFill").style.width = Math.round((done / ENDPOINTS.length) * 100) + "%";
+        $("filterFail").textContent = "Только ошибки (" + err + ")";
 
-        var metaHtml =
-          "<div><strong>Дата теста:</strong> " + escapeHtml(testTimestamp || "н/д") + "</div>" +
-          (data.n ? ("<div><strong>Объект:</strong> " + escapeHtml(data.n) + "</div>") : "") +
-          "<div><strong>Локация / IP:</strong> " + escapeHtml(clientGeo.location + (clientGeo.ip !== "н/д" ? (" · " + clientGeo.ip) : "")) + "</div>" +
-          (clientGeo.isp !== "н/д" ? ("<div><strong>Провайдер:</strong> " + escapeHtml(clientGeo.isp) + "</div>") : "") +
-          "<div><strong>Устройство:</strong> " + escapeHtml(reportDeviceLabel) + "</div>";
-        document.getElementById("receivedMeta").innerHTML = metaHtml;
+        applyFilter();
+        $("rawLogArea").value = buildReportText();
+      }
 
+      function startDiagnostics() {
+        if (isRunning) return;
+        isRunning = true;
+        hasCompletedTest = false;
+        reportDeviceLabel = shortDeviceFromUA(navigator.userAgent);
+
+        var startBtn = $("startBtn");
+        var copyBtn = $("copyBtn");
+        var shareBtn = $("shareBtn");
+
+        startBtn.disabled = true;
+        startBtn.textContent = "Выполняется проверка...";
+        copyBtn.disabled = true;
+        copyBtn.className = "btn btn-secondary";
+        copyBtn.textContent = "Скопировать";
+        shareBtn.disabled = true;
+        shareBtn.className = "btn btn-secondary";
+        shareBtn.textContent = "Поделиться";
+
+        $("qrCard").classList.add("hidden");
+        $("smartDiagCard").classList.add("hidden");
+
+        testTimestamp = new Date().toLocaleString("ru-RU");
+        initList();
         updateProgress();
-        renderGuide();
-        return true;
-      } catch (e) {
-        return false;
+
+        var geoPromise = detectLocation();
+        var cursor = 0;
+        var concurrency = 6;
+
+        function worker() {
+          if (cursor >= ENDPOINTS.length) {
+            return Promise.resolve();
+          }
+          var idx = cursor++;
+          return checkSingle(idx).then(function() {
+            updateProgress();
+            return worker();
+          });
+        }
+
+        var workers = [geoPromise];
+        for (var w = 0; w < concurrency; w++) {
+          workers.push(worker());
+        }
+
+        Promise.all(workers).then(function() {
+          isRunning = false;
+          hasCompletedTest = true;
+          startBtn.disabled = false;
+          startBtn.textContent = "Повторить проверку";
+          copyBtn.disabled = false;
+          copyBtn.className = "btn btn-secondary ready";
+          shareBtn.disabled = false;
+          shareBtn.className = "btn btn-secondary ready";
+
+          $("rawLogArea").value = buildReportText();
+          renderQrSection();
+          renderSmartDiagnosis();
+        });
       }
-    }
 
-    function exitViewerMode() {
-      isViewerMode = false;
-      hasCompletedTest = false;
-      if (window.history && window.history.replaceState) {
-        window.history.replaceState(null, "", window.location.pathname + window.location.search);
-      } else {
-        window.location.hash = "";
+      /* ================= QR CODE HANDOFF ================= */
+
+      function buildStatusVector() {
+        var chars = [];
+        for (var i = 0; i < results.length; i++) {
+          var st = results[i].status;
+          if (st === "ok") chars.push("1");
+          else if (st === "timeout") chars.push("T");
+          else if (st === "fail") chars.push("F");
+          else chars.push("0");
+        }
+        return chars.join("");
       }
-      document.getElementById("receivedCard").classList.add("hidden");
-      document.getElementById("controlCard").classList.remove("hidden");
-      document.getElementById("qrCard").classList.add("hidden");
-      document.getElementById("guideCard").classList.add("hidden");
-      initList();
-      updateProgress();
-      detectLocation();
-    }
 
-    /* ================= SMART DIAGNOSIS & MINI-GUIDE ================= */
+      function buildCompactShareUrl() {
+        var note = $("clientNote").value.trim().slice(0, 36);
+        var locShort = (clientGeo.location || "").slice(0, 40);
+        var ispShort = (clientGeo.isp || "").slice(0, 28);
+        var payloadObj = {
+          v: 2,
+          t: testTimestamp || new Date().toLocaleString("ru-RU"),
+          n: note,
+          l: locShort,
+          ip: clientGeo.ip !== "н/д" ? clientGeo.ip : "",
+          isp: ispShort !== "н/д" ? ispShort : "",
+          tz: clientGeo.timezone !== "н/д" ? clientGeo.timezone : "",
+          d: reportDeviceLabel || shortDeviceFromUA(navigator.userAgent),
+          s: buildStatusVector()
+        };
+        var base = window.location.href.split("#")[0].split("?")[0];
+        return base + "#r=" + toBase64Url(JSON.stringify(payloadObj));
+      }
 
-    function analyzeResults() {
-      var totalOk = 0;
-      var totalTo = 0;
-      var totalFl = 0;
-      var critTo = 0;
-      var critFl = 0;
-      var nonOptTo = 0;
-      var nonOptFl = 0;
+      function buildCompactOfflineText() {
+        var okCount = 0;
+        var toIds = [];
+        var flIds = [];
 
-      for (var i = 0; i < results.length; i++) {
-        var r = results[i];
-        if (r.status === "ok") {
-          totalOk++;
-        } else if (r.status === "timeout") {
-          totalTo++;
-          if (r.critical) critTo++;
-          if (!r.optional) nonOptTo++;
-        } else if (r.status === "fail") {
-          totalFl++;
-          if (r.critical) critFl++;
-          if (!r.optional) nonOptFl++;
+        for (var i = 0; i < results.length; i++) {
+          if (results[i].status === "ok") okCount++;
+          else if (results[i].status === "timeout") toIds.push(results[i].id);
+          else if (results[i].status === "fail") flIds.push(results[i].id);
+        }
+
+        var note = $("clientNote").value.trim().slice(0, 32);
+        var lines = [
+          "MW " + APP_VERSION + " | " + (testTimestamp || ""),
+          note ? ("Obj: " + note) : "Obj: -",
+          "Geo: " + clientGeo.location + (clientGeo.ip !== "н/д" ? (" (" + clientGeo.ip + ")") : ""),
+          "ISP: " + clientGeo.isp,
+          "Dev: " + (reportDeviceLabel || shortDeviceFromUA(navigator.userAgent)),
+          "OK: " + okCount + "/" + ENDPOINTS.length + " | TO:" + toIds.length + " FL:" + flIds.length
+        ];
+        if (toIds.length > 0) lines.push("TO: " + toIds.join(","));
+        if (flIds.length > 0) lines.push("FL: " + flIds.join(","));
+        return lines.join("\n");
+      }
+
+      function renderQrSvg(text) {
+        if (typeof window.qrcode === "undefined") {
+          return '<div style="padding:16px;color:#111;font-size:12px;text-align:center;">Библиотека vendor/qrcode.js не загружена</div>';
+        }
+        try {
+          if (window.qrcode.stringToBytesFuncs && window.qrcode.stringToBytesFuncs["UTF-8"]) {
+            window.qrcode.stringToBytes = window.qrcode.stringToBytesFuncs["UTF-8"];
+          }
+          var qr = window.qrcode(0, "L");
+          qr.addData(text);
+          qr.make();
+          var count = qr.getModuleCount();
+          var margin = 4;
+          var size = count + margin * 2;
+          var rects = ['<rect width="100%" height="100%" fill="#ffffff"/>'];
+          for (var r = 0; r < count; r++) {
+            for (var c = 0; c < count; c++) {
+              if (qr.isDark(r, c)) {
+                rects.push('<rect x="' + (c + margin) + '" y="' + (r + margin) + '" width="1" height="1" fill="#000000"/>');
+              }
+            }
+          }
+          return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" shape-rendering="crispEdges">' + rects.join("") + '</svg>';
+        } catch (e) {
+          return '<div style="padding:16px;color:#111;font-size:12px;text-align:center;">Ошибка генерации QR</div>';
         }
       }
 
-      if (totalOk === 0 && (totalTo + totalFl) > 0) {
-        return { type: "offline", totalOk: totalOk, totalTo: totalTo, totalFl: totalFl };
-      }
-      if (critTo === 0 && critFl === 0 && nonOptTo === 0 && nonOptFl === 0) {
-        return { type: "ok", totalOk: totalOk, totalTo: totalTo, totalFl: totalFl };
-      }
-      if ((critTo + nonOptTo) >= (critFl + nonOptFl)) {
-        return { type: "timeout", totalOk: totalOk, totalTo: totalTo, totalFl: totalFl, critTo: critTo, critFl: critFl };
-      }
-      return { type: "fail", totalOk: totalOk, totalTo: totalTo, totalFl: totalFl, critTo: critTo, critFl: critFl };
-    }
-
-    var GUIDE_DATA = {
-      timeout: {
-        statusClass: "status-fail",
-        title: "Трафик MyWellness не доходит до серверов (TIMEOUT)",
-        summary: "Запросы к критическим узлам MyWellness зависают без ответа. Почти всегда это означает, что именно это устройство (тренажёр) выходит в сеть мимо VPN-туннеля или пакеты обрезаются по MTU.",
-        club: [
-          ["Проверьте способ подключения тренажёра", "Если тренажёр подключён кабелем, а на телефоне по Wi-Fi тест прошёл успешно — временно переключите тренажёр в настройках сети на тот же Wi-Fi для проверки."],
-          ["Проверьте, куда идёт кабель Ethernet", "Убедитесь, что розетка/кабель тренажёра приходят в роутер с настроенным VPN, а не в отдельный офисный или гостевой коммутатор."],
-          ["Передайте отчёт IT-специалисту", "Отсканируйте QR-код с экрана тренажёра (или нажмите «Поделиться») и отправьте лог системному администратору клуба вместе с вкладкой «Для IT-специалиста»."]
-        ],
-        it: [
-          ["Проверьте подсеть / VLAN и политику VPN", "Сравните IP и шлюз тренажёра с телефоном (где тест зелёный). Часто LAN-подсеть тренажёров не включена в правила маршрутизации через VPN."],
-          ["Проверьте DNS и отключите Private DNS на Android", "Консоль должна получать DNS от локального роутера по DHCP (не 8.8.8.8 / 1.1.1.1). В настройках Android («Сеть и интернет → Частный DNS») установите «Отключено», иначе роутер не перехватит DNS для доменного split-tunneling."],
-          ["Добавьте домены MyWellness и AWS в списки VPN", "В VPN должны маршрутизироваться *.mywellness.com, *.technogym.com и подсети AWS (включая порт TCP 8883 для iotcore.mywellness.com)."],
-          ["Включите TCP MSS Clamping на VPN-интерфейсе", "Если домены точно идут в VPN, но рвутся по таймауту (при работающем YouTube по QUIC/UDP) — на туннеле фрагментируются крупные пакеты TLS-рукопожатия. Снизьте MTU или включите MSS clamping."]
-        ]
-      },
-      fail: {
-        statusClass: "status-fail",
-        title: "Мгновенный отказ соединения: DNS или SSL-сертификат (FAIL)",
-        summary: "Запросы обрываются сразу, не дожидаясь таймаута. Основные причины: сбитая системная дата/время, ошибка DNS, прокси/SSL-инспекция или устаревшие корневые сертификаты в прошивке Android Live.",
-        club: [
-          ["Проверьте системную дату и время на консоли", "Зайдите в настройки Android на тренажёре («Система → Дата и время»). Неверный год или дата полностью блокируют HTTPS-соединение с MyWellness."],
-          ["Перезагрузите тренажёр по питанию", "Выключите питание тренажёра тумблером на 30 секунд и включите заново, затем повторите проверку."],
-          ["Сравните с телефоном в той же сети", "Если на телефоне в этой же Wi-Fi сети тест зелёный, а на тренажёре мгновенные FAIL — отправьте отчёт сервисному инженеру Technogym (может потребоваться обновление ПО Live OS)."]
-        ],
-        it: [
-          ["Определите точный код ошибки Chromium", "Откройте в браузере консоли напрямую https://mywellness.com: ERR_NAME_NOT_RESOLVED = сбой DNS; ERR_CERT_DATE_INVALID = сбито время; ERR_CERT_AUTHORITY_INVALID = SSL-инспекция или старые Root CA в Android."],
-          ["Откройте UDP 123 (NTP) и проверьте прокси", "Убедитесь, что на фаерволе разрешена синхронизация времени (NTP), отключена SSL-инспекция (MITM) для *.mywellness.com, а в настройках сети консоли не задан ручной HTTP-прокси."],
-          ["Проверьте актуальность Root CA на консоли Live", "Если время точное, а браузер выдаёт ERR_CERT_AUTHORITY_INVALID — в старой сборке Android Live OS отсутствуют актуальные сертификаты ISRG Root X1 / Amazon Root CA. Требуется обновление ПО консоли."]
-        ]
-      },
-      ok: {
-        statusClass: "status-ok",
-        title: "HTTPS-доступность MyWellness в норме",
-        summary: "Все ключевые облачные узлы Technogym и MyWellness отвечают. Единичные ошибки на вспомогательных доменах (amazonaws.com, google-analytics.com, coach, contentrelease) являются нормой и не мешают работе.",
-        club: [
-          ["Убедитесь, что тест пройден именно на тренажёре", "Если сейчас вы проверяли сеть со смартфона — обязательно откройте эту же ссылку во встроенном браузере самого тренажёра Live и повторите тест."],
-          ["Проверьте дату/время и перезагрузите консоль", "Если тест зелёный прямо на тренажёре, но сервисы MyWellness не работают — проверьте актуальность даты/времени и перезагрузите тренажёр по питанию."],
-          ["Передайте отчёт IT-специалисту для проверки порта 8883", "Браузер проверяет только веб-порт 443. Для связи консоли с облаком требуется открытый порт 8883 — переключите вкладку выше на «Для IT-специалиста»."]
-        ],
-        it: [
-          ["Проверьте маршрутизацию порта TCP 8883 (MQTT over TLS)", "Веб-тест проверяет только TCP 443, но телеметрия и статус онлайн консоли идут на iotcore.mywellness.com:8883. Убедитесь, что в VPN заворачивается весь TCP-трафик этих доменов, а не только порты 80/443."],
-          ["Проверьте NTP (UDP 123) и длинные TCP-сессии", "Убедитесь, что фаервол/NAT не рвёт постоянные MQTT-сессии и пропускает NTP."],
-          ["Проверьте привязку оборудования", "Если порты 443 и 8883 открыты напрямую с консоли, но облако не активируется — проверьте статус регистрации оборудования в сервисном меню Live и в кабинете MyWellness."]
-        ]
-      },
-      offline: {
-        statusClass: "status-warn",
-        title: "Нет доступа в интернет с этого устройства",
-        summary: "Ни один из 41 узлов не ответил. Проверьте базовое подключение к Wi-Fi или Ethernet.",
-        club: [
-          ["Проверьте подключение к Wi-Fi или кабелю", "Убедитесь, что на устройстве горит значок подключения к сети и кабель плотно вставлен в разъём тренажёра."],
-          ["Проверьте, нет ли страницы авторизации (Captive Portal)", "Гостевые Wi-Fi сети с вводом номера телефона или SMS-кода не подходят для тренажёров Technogym."]
-        ],
-        it: [
-          ["Проверьте выдачу IP по DHCP и доступность шлюза", "Убедитесь, что интерфейс консоли получил IP-адрес, маску, шлюз и DNS, и что клиент не заблокирован на портале авторизации (Captive Portal) или MAC-фильтре."],
-          ["Проверьте статус VPN-туннеля на роутере", "Если на роутере включён Kill Switch и VPN-туннель упал, весь трафик подсети тренажёров будет полностью заблокирован."]
-        ]
-      }
-    };
-
-    var FULL_CHECKLIST = {
-      club: [
-        "<strong>Сравнение телефон vs тренажёр:</strong> тест запущен на телефоне (Wi-Fi зала, без 4G) и в браузере самого тренажёра Live.",
-        "<strong>Кабель или Wi-Fi:</strong> проверено, что тренажёр подключён к правильной сети зала (не к гостевому Wi-Fi с SMS-авторизацией).",
-        "<strong>Дата и время на консоли:</strong> в настройках Android проверены актуальный год, дата, время и часовой пояс.",
-        "<strong>Перезагрузка питания:</strong> тренажёр выключен тумблером на 30 секунд и включён повторно.",
-        "<strong>Передача отчёта:</strong> лог с самого тренажёра передан по QR-коду на телефон и отправлен инженеру."
-      ],
-      it: [
-        "<strong>Подсеть / VLAN:</strong> Ethernet-подсеть тренажёров включена в те же правила VPN-маршрутизации, что и Wi-Fi.",
-        "<strong>DNS по DHCP:</strong> консоль получает локальный IP роутера как DNS (не 8.8.8.8 / 1.1.1.1), чтобы работал доменный split-tunneling.",
-        "<strong>Android Private DNS:</strong> в настройках Android консоли параметр «Частный DNS» переведён в положение «Отключено (Off)».",
-        "<strong>Порты и протоколы в VPN:</strong> открыты и маршрутизируются TCP 443, TCP 8883 (MQTT → iotcore.mywellness.com) и UDP 123 (NTP).",
-        "<strong>MTU / MSS Clamping:</strong> на VPN-интерфейсе включён TCP MSS Clamping для прохождения TLS-рукопожатий с AWS.",
-        "<strong>Отсутствие MITM / прокси:</strong> отключены ручной HTTP-прокси и SSL-инспекция для *.mywellness.com и *.technogym.com.",
-        "<strong>Сертификаты Live OS:</strong> при открытии https://mywellness.com на консоли нет ошибки ERR_CERT_AUTHORITY_INVALID."
-      ]
-    };
-
-    function setGuideRole(role) {
-      currentGuideRole = role;
-      document.getElementById("tabClub").className = role === "club" ? "role-tab active" : "role-tab";
-      document.getElementById("tabIt").className = role === "it" ? "role-tab active" : "role-tab";
-      renderGuide();
-    }
-
-    function renderGuide() {
-      var guideCard = document.getElementById("guideCard");
-      guideCard.classList.remove("hidden");
-
-      var diag = analyzeResults();
-      var cfg = GUIDE_DATA[diag.type];
-
-      var banner = document.getElementById("diagBanner");
-      banner.className = "diag-banner " + cfg.statusClass;
-      document.getElementById("diagTitle").textContent = cfg.title;
-      document.getElementById("diagSummary").textContent = cfg.summary;
-
-      var steps = cfg[currentGuideRole];
-      var stepsEl = document.getElementById("smartSteps");
-      stepsEl.innerHTML = "";
-      for (var i = 0; i < steps.length; i++) {
-        var li = document.createElement("li");
-        li.innerHTML = "<strong>" + steps[i][0] + "</strong>" + steps[i][1];
-        stepsEl.appendChild(li);
+      function setQrMode(mode) {
+        currentQrMode = mode;
+        setClass($("qrModeUrl"), "active", mode === "url");
+        setClass($("qrModeText"), "active", mode === "text");
+        renderQrSection();
       }
 
-      var clEl = document.getElementById("fullChecklist");
-      clEl.innerHTML = "";
-      var clItems = FULL_CHECKLIST[currentGuideRole];
-      for (var c = 0; c < clItems.length; c++) {
-        var lbl = document.createElement("label");
-        lbl.className = "check-row";
-        lbl.innerHTML = '<input type="checkbox" onchange="this.parentNode.classList.toggle(\'checked\', this.checked)"><span>' + clItems[c] + '</span>';
-        clEl.appendChild(lbl);
-      }
-    }
+      function renderQrSection() {
+        $("qrCard").classList.remove("hidden");
+        var compactSummary = buildCompactOfflineText();
 
-    /* ================= REPORT TEXT, SHARE & COPY ================= */
-
-    function buildReportText() {
-      var okList = [];
-      var toList = [];
-      var flList = [];
-      var waitList = [];
-
-      for (var i = 0; i < results.length; i++) {
-        var r = results[i];
-        var code = "#" + pad2(r.id);
-        if (r.status === "ok") {
-          okList.push("[OK]   " + code + " " + r.url + (r.ms !== null ? (" — " + r.ms + " ms") : ""));
-        } else if (r.status === "timeout") {
-          toList.push("[TO]   " + code + " " + r.url + " — TIMEOUT (>5s)");
-        } else if (r.status === "fail") {
-          flList.push("[FAIL] " + code + " " + r.url + " — " + r.detail);
+        if (currentQrMode === "url") {
+          $("qrBox").innerHTML = renderQrSvg(buildCompactShareUrl());
+          $("qrTitle").textContent = "Отсканируйте камерой телефона";
+          $("qrDesc").textContent = "На телефоне сразу откроется расшифрованный отчёт с кнопкой «Поделиться» для отправки в Telegram, WhatsApp или на почту.";
+          $("qrPreview").textContent = compactSummary;
         } else {
-          waitList.push("[WAIT] " + code + " " + r.url);
+          $("qrBox").innerHTML = renderQrSvg(compactSummary);
+          $("qrTitle").textContent = "Компактный текст (работает офлайн)";
+          $("qrDesc").textContent = "Содержит локацию и короткие числовые коды (#) недоступных узлов (TO — таймаут, FL — отказ). Отправьте считанный текст инженеру.";
+          $("qrPreview").textContent = compactSummary;
         }
       }
 
-      var note = document.getElementById("clientNote").value.trim() || "Не указан";
-      var errCount = toList.length + flList.length;
-      var diag = hasCompletedTest ? analyzeResults() : null;
-      var diagTitle = diag ? GUIDE_DATA[diag.type].title : "Тест не завершён";
-      var devStr = isViewerMode ? reportDeviceLabel : (shortDeviceFromUA(navigator.userAgent) + " | " + navigator.userAgent);
+      function tryLoadFromHash() {
+        var hash = window.location.hash || "";
+        if (hash.indexOf("#r=") !== 0) return false;
 
-      var lines = [
-        "=== SERVICE REPORT: MYWELLNESS NETCHECK (" + APP_VERSION + ") ===",
-        "Источник: " + (isViewerMode ? "Передано по QR с тренажёра" : "Прямой запуск на устройстве"),
-        "Дата и время: " + (testTimestamp || new Date().toLocaleString("ru-RU")),
-        "Объект: " + note,
-        "Локация (GeoIP): " + clientGeo.location,
-        "Внешний IP / ISP: " + clientGeo.ip + " (" + clientGeo.isp + ")",
-        "Часовой пояс: " + clientGeo.timezone,
-        "Итог: Доступно " + okList.length + " из " + ENDPOINTS.length + " (TIMEOUT: " + toList.length + ", FAIL: " + flList.length + ")",
-        "Автодиагноз: " + diagTitle,
-        "Устройство: " + devStr,
-        "-------------------------------------------"
+        try {
+          var data = JSON.parse(fromBase64Url(hash.slice(3)));
+          if (!data || !data.s) return false;
+
+          isViewerMode = true;
+          hasCompletedTest = true;
+          testTimestamp = data.t || "";
+          clientGeo.location = data.l || "Не определена";
+          clientGeo.ip = data.ip || "н/д";
+          clientGeo.isp = data.isp || "н/д";
+          clientGeo.timezone = data.tz || "н/д";
+          reportDeviceLabel = data.d || "Устройство тренажёра";
+          $("clientNote").value = data.n || "";
+
+          initList();
+
+          var vec = data.s;
+          for (var i = 0; i < ENDPOINTS.length; i++) {
+            var ch = vec.charAt(i);
+            var badge = $("badge-" + i);
+            if (ch === "1") {
+              results[i].status = "ok";
+              results[i].detail = "OK";
+              badge.className = "badge badge-ok";
+              badge.textContent = "OK";
+            } else if (ch === "T") {
+              results[i].status = "timeout";
+              results[i].detail = "TIMEOUT (>5s)";
+              badge.className = "badge badge-fail";
+              badge.textContent = "TIMEOUT (>5s)";
+            } else if (ch === "F") {
+              results[i].status = "fail";
+              results[i].detail = "FAIL";
+              badge.className = "badge badge-fail";
+              badge.textContent = "FAIL";
+            } else {
+              results[i].status = "idle";
+              results[i].detail = "Не проверено";
+              badge.className = "badge badge-idle";
+              badge.textContent = "н/д";
+            }
+          }
+
+          $("controlCard").classList.add("hidden");
+          $("qrCard").classList.add("hidden");
+          $("receivedCard").classList.remove("hidden");
+
+          var metaHtml =
+            "<div><strong>Дата теста:</strong> " + escapeHtml(testTimestamp || "н/д") + "</div>" +
+            (data.n ? ("<div><strong>Объект:</strong> " + escapeHtml(data.n) + "</div>") : "") +
+            "<div><strong>Локация / IP:</strong> " + escapeHtml(clientGeo.location + (clientGeo.ip !== "н/д" ? (" · " + clientGeo.ip) : "")) + "</div>" +
+            (clientGeo.isp !== "н/д" ? ("<div><strong>Провайдер:</strong> " + escapeHtml(clientGeo.isp) + "</div>") : "") +
+            "<div><strong>Устройство:</strong> " + escapeHtml(reportDeviceLabel) + "</div>";
+          $("receivedMeta").innerHTML = metaHtml;
+
+          updateProgress();
+          renderSmartDiagnosis();
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function exitViewerMode() {
+        isViewerMode = false;
+        hasCompletedTest = false;
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, "", window.location.pathname + window.location.search);
+        } else {
+          window.location.hash = "";
+        }
+        $("receivedCard").classList.add("hidden");
+        $("controlCard").classList.remove("hidden");
+        $("qrCard").classList.add("hidden");
+        $("smartDiagCard").classList.add("hidden");
+        initList();
+        updateProgress();
+        detectLocation();
+      }
+
+      /* ================= DIAGNOSIS & TROUBLESHOOTING GUIDE ================= */
+
+      var GUIDE_DATA = {
+        timeout: {
+          statusClass: "status-fail",
+          title: "Трафик MyWellness не доходит до серверов (TIMEOUT)",
+          summary: "Запросы к критическим узлам MyWellness зависают без ответа. Почти всегда это означает, что именно это устройство (тренажёр) выходит в сеть мимо VPN-туннеля или пакеты обрезаются по MTU.",
+          club: [
+            ["Переключите тренажёр с кабеля на тот же Wi-Fi, что и на телефоне", "Если телефон по Wi-Fi тест прошёл, а тренажёр на кабеле выдаёт TIMEOUT — временно подключите тренажёр к этому же Wi-Fi. Если заработает, тренажёр исправен, а проблема в кабельной сети (LAN/VLAN)."],
+            ["Проверьте, куда подключён кабель Ethernet", "Убедитесь, что розетка/кабель тренажёра приходят в роутер с настроенным VPN, а не в отдельный офисный или гостевой коммутатор."],
+            ["Передайте отчёт IT-специалисту", "Отсканируйте QR-код с экрана тренажёра (или нажмите «Поделиться») и отправьте лог системному администратору клуба вместе с требованиями из вкладки «Для IT-специалиста»."]
+          ],
+          it: [
+            ["Сравните подсеть/VLAN и политику VPN с рабочей Wi-Fi сетью", "Проверьте IP и шлюз тренажёра. Часто проводная LAN-подсеть или конкретный IP/MAC тренажёра не включены в правила маршрутизации через VPN."],
+            ["Проверьте DNS по DHCP и отключите Private DNS на Android", "Консоль должна получать локальный IP роутера как DNS (не 8.8.8.8 / 1.1.1.1). В настройках Android («Сеть и интернет → Частный DNS») выберите «Отключено», иначе роутер не перехватит DNS для доменного split-tunneling."],
+            ["Добавьте домены MyWellness, Technogym и AWS в VPN", "В туннель должны идти *.mywellness.com, *.technogym.com и подсети AWS, включая весь TCP-трафик и порт TCP 8883 (iotcore.mywellness.com)."],
+            ["Включите TCP MSS Clamping на VPN-интерфейсе", "Если домены точно идут через VPN, YouTube работает (UDP/QUIC), а MyWellness зависает по TIMEOUT — режутся крупные пакеты TLS-рукопожатия. Включите MSS Clamping или уменьшите MTU на туннеле."]
+          ]
+        },
+        fail: {
+          statusClass: "status-fail",
+          title: "Мгновенный отказ соединения: DNS или SSL-сертификат (FAIL)",
+          summary: "Запросы обрываются сразу без ожидания таймаута. Основные причины: сбитая системная дата/время, ошибка DNS, прокси/SSL-инспекция или устаревшие корневые сертификаты в Android Live.",
+          club: [
+            ["Проверьте системную дату и время на консоли", "В настройках Android («Система → Дата и время») убедитесь, что год, дата и часовой пояс верны. Сбитая дата блокирует HTTPS-соединения с MyWellness."],
+            ["Перезагрузите тренажёр по питанию", "Выключите питание тумблером на 30 секунд и включите заново, затем повторите проверку."],
+            ["Сравните с телефоном в той же сети", "Если на телефоне в этой же Wi-Fi сети тест зелёный, а на консоли мгновенные FAIL — отправьте отчёт инженеру Technogym (возможно, нужно обновить прошивку Live OS)."]
+          ],
+          it: [
+            ["Проверьте точный код ошибки в браузере консоли", "Откройте https://mywellness.com напрямую: ERR_NAME_NOT_RESOLVED — сбой DNS; ERR_CERT_DATE_INVALID — сбито время; ERR_CERT_AUTHORITY_INVALID — SSL-инспекция или устаревшие Root CA в Android."],
+            ["Откройте UDP 123 (NTP) и отключите прокси / MITM", "Разрешите NTP на фаерволе, отключите SSL-инспекцию для *.mywellness.com и убедитесь, что на консоли не прописан ручной HTTP-прокси."],
+            ["Проверьте Root CA в прошивке Android Live", "Если время точное и MITM нет, но браузер пишет ERR_CERT_AUTHORITY_INVALID — в старой сборке Android отсутствуют актуальные сертификаты ISRG Root X1 / Amazon Root CA. Требуется обновление ПО консоли."]
+          ]
+        },
+        ok: {
+          statusClass: "status-ok",
+          title: "HTTPS-доступность MyWellness в норме",
+          summary: "Все ключевые узлы Technogym и MyWellness отвечают. Ошибки на вспомогательных доменах (amazonaws.com, google-analytics.com, coach, contentrelease) являются нормой.",
+          club: [
+            ["Убедитесь, что тест пройден именно на тренажёре", "Если сейчас вы тестировали сеть с телефона — откройте эту же ссылку во встроенном браузере самой консоли Live и повторите тест."],
+            ["Проверьте дату/время и перезагрузите консоль", "Если тест зелёный прямо на тренажёре, но сервисы MyWellness не работают — проверьте системное время и перезагрузите тренажёр тумблером."],
+            ["Проверьте порт 8883 с IT-специалистом", "Браузер проверяет только веб-порт 443. Для связи тренажёра с облаком нужен порт TCP 8883 — откройте вкладку «Для IT-специалиста»."]
+          ],
+          it: [
+            ["Проверьте маршрутизацию порта TCP 8883 (MQTT over TLS)", "Веб-тест проверяет только TCP 443, но телеметрия и статус онлайн консоли работают через iotcore.mywellness.com:8883. Через VPN должен идти весь TCP-трафик этих доменов."],
+            ["Проверьте UDP 123 (NTP) и длинные TCP-сессии", "Убедитесь, что NAT/фаервол не обрывает постоянные MQTT-подключения и пропускает синхронизацию времени."],
+            ["Проверьте регистрацию тренажёра", "Если порты 443 и 8883 открыты с консоли, проверьте статус привязки оборудования в сервисном меню Live и в кабинете MyWellness."]
+          ]
+        },
+        offline: {
+          statusClass: "status-warn",
+          title: "Нет доступа в интернет с этого устройства",
+          summary: "Ни один из 41 узлов не ответил. Проверьте базовое подключение к Wi-Fi или кабелю Ethernet.",
+          club: [
+            ["Проверьте подключение к Wi-Fi или кабелю", "Убедитесь, что кабель плотно вставлен в разъём тренажёра или выбран правильный Wi-Fi зала."],
+            ["Проверьте наличие страницы авторизации (Captive Portal)", "Гостевые сети Wi-Fi с авторизацией по SMS не подходят для тренажёров Technogym."]
+          ],
+          it: [
+            ["Проверьте DHCP, шлюз и MAC-фильтр", "Убедитесь, что консоль получила IP/шлюз/DNS и не блокируется порталом авторизации."],
+            ["Проверьте статус VPN Kill Switch на роутере", "Если на роутере активен Kill Switch и VPN-туннель упал, весь трафик подсети тренажёров будет полностью заблокирован."]
+          ]
+        }
+      };
+
+      var SYMPTOM_CARDS = [
+        {
+          tagClass: "tag-fail",
+          tag: "TIMEOUT",
+          title: "YouTube работает, а MyWellness не подключается",
+          openDefault: true,
+          club: [
+            ["Временно переключите тренажёр с кабеля на Wi-Fi", "Если на телефоне в Wi-Fi всё работает, подключите тренажёр к той же сети Wi-Fi. Если MyWellness заработает — проблема в кабельной сети (LAN)."],
+            ["Отключите «Частный DNS» на консоли Android", "Откройте настройки Android → «Сеть и интернет» → «Частный DNS (Private DNS)» и выберите «Отключено»."],
+            ["Передайте отчёт администратору", "Если переключение не помогло — сделайте тест на тренажёре и передайте лог по QR-коду IT-специалисту."]
+          ],
+          it: [
+            ["Проверьте попадание LAN-подсети и IP тренажёра в VPN", "YouTube часто работает напрямую или по отдельным спискам Google, тогда как трафик проводной подсети тренажёров уходит мимо VPN."],
+            ["Проверьте DNS (DHCP) и отключите Android Private DNS", "При ручном DNS (8.8.8.8 / 1.1.1.1) или включённом DoT в Android роутер не видит DNS-запросов к *.mywellness.com и не добавляет их IP в таблицу VPN."],
+            ["Включите TCP MSS Clamping на VPN-интерфейсе", "YouTube использует UDP/QUIC и устойчив к проблемам MTU, а TLS-рукопожатие с AWS/MyWellness по TCP зависает без MSS Clamping."]
+          ]
+        },
+        {
+          tagClass: "tag-warn",
+          tag: "СЕТЬ / VLAN",
+          title: "На телефоне тест зелёный (OK), а на тренажёре ошибки",
+          openDefault: false,
+          club: [
+            ["Сравните сеть подключения", "Телефон тестировался по Wi-Fi, а тренажёр обычно подключён проводом. Проверьте тренажёр через тот же Wi-Fi."],
+            ["Проверьте дату и время на тренажёре", "На телефоне время синхронизируется по сотовой сети, а на тренажёре может сбиться при закрытом порте времени."]
+          ],
+          it: [
+            ["Сравните подсеть, шлюз и DNS на консоли и телефоне", "Убедитесь, что Ethernet-порт тренажёра находится в той же зоне/VLAN и политике VPN, что и Wi-Fi, а DNS указывает на роутер."],
+            ["Разделите TIMEOUT и мгновенный FAIL", "TIMEOUT — трафик идёт мимо VPN или режется по MTU. Мгновенный FAIL — сбито системное время, не работает DNS или устарели Root CA в прошивке Android Live."]
+          ]
+        },
+        {
+          tagClass: "tag-fail",
+          tag: "FAIL / SSL",
+          title: "Мгновенный отказ (FAIL) или ошибка сертификата",
+          openDefault: false,
+          club: [
+            ["Проверьте системную дату, год и часовой пояс", "В настройках Android консоли проверьте актуальность даты — даже ошибка в 1 день ломает SSL."],
+            ["Перезагрузите тренажёр по питанию", "Выключите тумблер питания на 30 секунд и включите заново."]
+          ],
+          it: [
+            ["Откройте https://mywellness.com напрямую в браузере консоли", "ERR_NAME_NOT_RESOLVED — не работает DNS; ERR_CERT_DATE_INVALID — неверная дата (откройте UDP 123); ERR_CERT_AUTHORITY_INVALID — SSL-инспекция или устаревшие Root CA."],
+            ["Проверьте прокси и версию Live OS", "Отключите HTTP-прокси и MITM-инспекцию. Если сертификаты устарели на уровне Android — требуется обновление прошивки консоли Live."]
+          ]
+        },
+        {
+          tagClass: "tag-ok",
+          tag: "TCP 8883",
+          title: "Все 41 узлов зелёные (OK), но облако MyWellness не работает",
+          openDefault: false,
+          club: [
+            ["Убедитесь, что тест выполнен именно на консоли тренажёра", "Успешный тест на телефоне не гарантирует работу самой консоли."],
+            ["Сообщите IT-специалисту о порте 8883", "Откройте раздел «Требования к сети и VPN» ниже и нажмите «Скопировать ТЗ для IT-специалиста»."]
+          ],
+          it: [
+            ["Откройте и заверните в VPN порт TCP 8883 (MQTT over TLS)", "Браузерный тест проверяет только TCP 443, но статус онлайн и телеметрия тренажёра идут на iotcore.mywellness.com:8883."],
+            ["Проверьте привязку оборудования", "Убедитесь, что тренажёр активирован в кабинете клуба MyWellness и не заблокирован по лицензии/регистрации."]
+          ]
+        }
       ];
 
-      if (toList.length > 0) {
-        lines.push("TIMEOUT — НЕТ ОТВЕТА (" + toList.length + "):");
-        for (var t = 0; t < toList.length; t++) lines.push(toList[t]);
-        lines.push("-------------------------------------------");
-      }
+      var FULL_CHECKLIST = {
+        club: [
+          "<strong>Сравнение телефон vs тренажёр:</strong> тест запущен на телефоне (Wi-Fi зала, без 4G) и в браузере самого тренажёра Live.",
+          "<strong>Проверка по Wi-Fi:</strong> если тренажёр на кабеле — проверена работа при временном подключении к рабочему Wi-Fi зала.",
+          "<strong>Частный DNS (Android):</strong> в настройках Android («Сеть и интернет → Частный DNS») установлено «Отключено».",
+          "<strong>Дата и время на консоли:</strong> проверены актуальный год, дата, время и часовой пояс.",
+          "<strong>Перезагрузка питания:</strong> тренажёр выключен тумблером на 30 секунд и включён повторно.",
+          "<strong>Передача отчёта:</strong> лог с тренажёра передан по QR-коду на телефон и отправлен инженеру."
+        ],
+        it: [
+          "<strong>Подсеть / VLAN:</strong> Ethernet-подсеть тренажёров включена в те же правила VPN-маршрутизации, что и Wi-Fi.",
+          "<strong>DNS по DHCP:</strong> консоль получает локальный IP роутера как DNS (не 8.8.8.8 / 1.1.1.1) для доменного split-tunneling.",
+          "<strong>Android Private DNS:</strong> на консоли отключён Private DNS (DoT).",
+          "<strong>Порты в VPN:</strong> открыты и маршрутизируются TCP 443, TCP 8883 (iotcore.mywellness.com) и UDP 123 (NTP).",
+          "<strong>MTU / MSS Clamping:</strong> на VPN-интерфейсе включён TCP MSS Clamping для TLS-рукопожатий с AWS.",
+          "<strong>Без прокси и MITM:</strong> отключены ручной HTTP-прокси и SSL-инспекция для *.mywellness.com и *.technogym.com.",
+          "<strong>Сертификаты Live OS:</strong> при открытии https://mywellness.com на консоли нет ошибки ERR_CERT_AUTHORITY_INVALID."
+        ]
+      };
 
-      if (flList.length > 0) {
-        lines.push("FAIL — ОТКАЗ DNS / SSL (" + flList.length + "):");
-        for (var f = 0; f < flList.length; f++) lines.push(flList[f]);
-        lines.push("-------------------------------------------");
-      }
+      function analyzeResults() {
+        var totalOk = 0;
+        var totalTo = 0;
+        var totalFl = 0;
+        var critTo = 0;
+        var critFl = 0;
+        var nonOptTo = 0;
+        var nonOptFl = 0;
 
-      if (okList.length > 0) {
-        lines.push("ДОСТУПНЫЕ УЗЛЫ (" + okList.length + "):");
-        for (var o = 0; o < okList.length; o++) lines.push(okList[o]);
-      }
-
-      if (waitList.length > 0 && errCount === 0 && okList.length === 0) {
-        lines.push("НЕ ПРОВЕРЕНО (" + waitList.length + ")");
-      }
-
-      lines.push("===========================================");
-      return lines.join("\n");
-    }
-
-    function flashButton(btn, text, isPrimary) {
-      if (!btn) return;
-      var prevText = btn.textContent;
-      var prevClass = btn.className;
-      btn.className = "btn btn-secondary copied";
-      btn.textContent = text;
-      setTimeout(function() {
-        btn.className = isPrimary ? "btn btn-primary" : prevClass;
-        btn.textContent = prevText;
-      }, 3000);
-    }
-
-    function copyReport(btn) {
-      var text = buildReportText();
-      var targetBtn = btn || document.getElementById("copyBtn");
-
-      function onSuccess() {
-        flashButton(targetBtn, "✓ Скопировано!", false);
-      }
-
-      function fallbackCopy() {
-        var ta = document.createElement("textarea");
-        ta.value = text;
-        ta.style.position = "fixed";
-        ta.style.top = "-9999px";
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        try {
-          document.execCommand("copy");
-          onSuccess();
-        } catch (e) {
-          alert("Откройте блок «Текстовый отчёт» внизу страницы и скопируйте текст вручную.");
+        for (var i = 0; i < results.length; i++) {
+          var r = results[i];
+          if (r.status === "ok") {
+            totalOk++;
+          } else if (r.status === "timeout") {
+            totalTo++;
+            if (r.critical) critTo++;
+            if (!r.optional) nonOptTo++;
+          } else if (r.status === "fail") {
+            totalFl++;
+            if (r.critical) critFl++;
+            if (!r.optional) nonOptFl++;
+          }
         }
-        document.body.removeChild(ta);
+
+        if (totalOk === 0 && (totalTo + totalFl) > 0) {
+          return { type: "offline" };
+        }
+        if (critTo === 0 && critFl === 0 && nonOptTo === 0 && nonOptFl === 0) {
+          return { type: "ok" };
+        }
+        if ((critTo + nonOptTo) >= (critFl + nonOptFl)) {
+          return { type: "timeout" };
+        }
+        return { type: "fail" };
       }
 
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(onSuccess).catch(fallbackCopy);
-      } else {
-        fallbackCopy();
-      }
-    }
+      function buildChecklistInto(containerEl, role) {
+        containerEl.innerHTML = "";
+        var items = FULL_CHECKLIST[role];
+        for (var i = 0; i < items.length; i++) {
+          var lbl = document.createElement("label");
+          lbl.className = "check-row";
 
-    function shareReport(btn) {
-      var text = buildReportText();
-      var note = document.getElementById("clientNote").value.trim();
-      var title = "MyWellness NetCheck" + (note ? (" — " + note) : "");
-      var isPrimary = btn && btn.classList.contains("btn-primary");
+          var cb = document.createElement("input");
+          cb.type = "checkbox";
+          (function(rowEl, checkboxEl) {
+            checkboxEl.addEventListener("change", function() {
+              setClass(rowEl, "checked", checkboxEl.checked);
+            });
+          })(lbl, cb);
 
-      if (navigator.share) {
-        navigator.share({
-          title: title,
-          text: text
-        }).catch(function(err) {
-          if (err && err.name === "AbortError") return;
-          copyReport(btn);
-        });
-      } else {
-        copyReport(btn);
-        if (btn) {
-          flashButton(btn, "✓ Скопировано — вставьте в чат", isPrimary);
+          var span = document.createElement("span");
+          span.innerHTML = items[i];
+
+          lbl.appendChild(cb);
+          lbl.appendChild(span);
+          containerEl.appendChild(lbl);
         }
       }
-    }
 
-    document.getElementById("clientNote").addEventListener("input", function() {
-      document.getElementById("rawLogArea").value = buildReportText();
-      if (hasCompletedTest && !isViewerMode) renderQrSection();
-    });
+      function renderSmartDiagnosis() {
+        if (!hasCompletedTest) return;
+        $("smartDiagCard").classList.remove("hidden");
 
-    if (!tryLoadFromHash()) {
-      initList();
-      detectLocation();
-    }
+        var diag = analyzeResults();
+        var cfg = GUIDE_DATA[diag.type];
+
+        $("diagBanner").className = "diag-banner " + cfg.statusClass;
+        $("diagTitle").textContent = cfg.title;
+        $("diagSummary").textContent = cfg.summary;
+
+        var steps = cfg[currentGuideRole];
+        var stepsEl = $("smartSteps");
+        stepsEl.innerHTML = "";
+        for (var i = 0; i < steps.length; i++) {
+          var li = document.createElement("li");
+          li.innerHTML = "<strong>" + escapeHtml(steps[i][0]) + "</strong>" + escapeHtml(steps[i][1]);
+          stepsEl.appendChild(li);
+        }
+
+        buildChecklistInto($("diagChecklist"), currentGuideRole);
+      }
+
+      function renderStandaloneGuide() {
+        var container = $("symptomsContainer");
+        container.innerHTML = "";
+
+        for (var i = 0; i < SYMPTOM_CARDS.length; i++) {
+          var card = SYMPTOM_CARDS[i];
+          var det = document.createElement("details");
+          det.className = "accordion";
+          if (card.openDefault) det.open = true;
+
+          var sum = document.createElement("summary");
+          sum.innerHTML = '<span class="symptom-tag ' + card.tagClass + '">' + escapeHtml(card.tag) + '</span>' + escapeHtml(card.title);
+          det.appendChild(sum);
+
+          var body = document.createElement("div");
+          body.className = "accordion-body";
+
+          var ol = document.createElement("ol");
+          ol.className = "guide-steps";
+          var steps = card[currentGuideRole];
+          for (var s = 0; s < steps.length; s++) {
+            var li = document.createElement("li");
+            li.innerHTML = "<strong>" + escapeHtml(steps[s][0]) + "</strong>" + escapeHtml(steps[s][1]);
+            ol.appendChild(li);
+          }
+
+          body.appendChild(ol);
+          det.appendChild(body);
+          container.appendChild(det);
+        }
+
+        buildChecklistInto($("standaloneChecklist"), currentGuideRole);
+      }
+
+      function setGuideRole(role) {
+        currentGuideRole = role;
+        setClass($("diagTabClub"), "active", role === "club");
+        setClass($("diagTabIt"), "active", role === "it");
+        setClass($("guideTabClub"), "active", role === "club");
+        setClass($("guideTabIt"), "active", role === "it");
+
+        renderStandaloneGuide();
+        if (hasCompletedTest) renderSmartDiagnosis();
+      }
+
+      /* ================= REPORT TEXT, SHARE & COPY ================= */
+
+      function buildReportText() {
+        var okList = [];
+        var toList = [];
+        var flList = [];
+
+        for (var i = 0; i < results.length; i++) {
+          var r = results[i];
+          var code = "#" + pad2(r.id);
+          if (r.status === "ok") {
+            okList.push("[OK]   " + code + " " + r.url + (r.ms !== null ? (" — " + r.ms + " ms") : ""));
+          } else if (r.status === "timeout") {
+            toList.push("[TO]   " + code + " " + r.url + " — TIMEOUT (>5s)");
+          } else if (r.status === "fail") {
+            flList.push("[FAIL] " + code + " " + r.url + " — " + r.detail);
+          }
+        }
+
+        var note = $("clientNote").value.trim() || "Не указан";
+        var diag = hasCompletedTest ? analyzeResults() : null;
+        var diagTitle = diag ? GUIDE_DATA[diag.type].title : "Тест не завершён";
+        var devStr = isViewerMode ? reportDeviceLabel : (shortDeviceFromUA(navigator.userAgent) + " | " + navigator.userAgent);
+
+        var lines = [
+          "=== SERVICE REPORT: MYWELLNESS NETCHECK (" + APP_VERSION + ") ===",
+          "Источник: " + (isViewerMode ? "Передано по QR с тренажёра" : "Прямой запуск на устройстве"),
+          "Дата и время: " + (testTimestamp || new Date().toLocaleString("ru-RU")),
+          "Объект: " + note,
+          "Локация (GeoIP): " + clientGeo.location,
+          "Внешний IP / ISP: " + clientGeo.ip + " (" + clientGeo.isp + ")",
+          "Часовой пояс: " + clientGeo.timezone,
+          "Итог: Доступно " + okList.length + " из " + ENDPOINTS.length + " (TIMEOUT: " + toList.length + ", FAIL: " + flList.length + ")",
+          "Автодиагноз: " + diagTitle,
+          "Устройство: " + devStr,
+          "-------------------------------------------"
+        ];
+
+        if (toList.length > 0) {
+          lines.push("TIMEOUT — НЕТ ОТВЕТА (" + toList.length + "):");
+          for (var t = 0; t < toList.length; t++) lines.push(toList[t]);
+          lines.push("-------------------------------------------");
+        }
+
+        if (flList.length > 0) {
+          lines.push("FAIL — ОТКАЗ DNS / SSL (" + flList.length + "):");
+          for (var f = 0; f < flList.length; f++) lines.push(flList[f]);
+          lines.push("-------------------------------------------");
+        }
+
+        if (okList.length > 0) {
+          lines.push("ДОСТУПНЫЕ УЗЛЫ (" + okList.length + "):");
+          for (var o = 0; o < okList.length; o++) lines.push(okList[o]);
+        }
+
+        lines.push("===========================================");
+        return lines.join("\n");
+      }
+
+      function buildItSpecText() {
+        return [
+          "Требования к сети и VPN для консолей Technogym Live (MyWellness):",
+          "1. Маршрутизация через VPN: домены *.mywellness.com, *.technogym.com и подсети AWS (включая подсеть/VLAN проводных тренажёров).",
+          "2. Открытые порты в VPN: TCP 443 (HTTPS), TCP 8883 (MQTT over TLS на iotcore.mywellness.com), UDP 123 (NTP).",
+          "3. DNS: консоль должна получать локальный IP роутера по DHCP (не 8.8.8.8 / 1.1.1.1); в Android консоли отключить Private DNS (Частный DNS -> Off).",
+          "4. VPN-туннель: включить TCP MSS Clamping (исправляет TIMEOUT на TLS при работающем YouTube).",
+          "5. Без ручного HTTP-прокси и без SSL-инспекции (MITM) для *.mywellness.com и *.technogym.com."
+        ].join("\n");
+      }
+
+      function flashButton(btn, text, keepPrimary) {
+        if (!btn) return;
+        var prevText = btn.getAttribute("data-orig-text") || btn.textContent;
+        btn.setAttribute("data-orig-text", prevText);
+        var prevClass = keepPrimary ? "btn btn-primary" : "btn btn-secondary ready";
+        btn.className = "btn btn-secondary copied";
+        btn.textContent = text;
+        setTimeout(function() {
+          btn.className = prevClass;
+          btn.textContent = prevText;
+        }, 3000);
+      }
+
+      function copyTextToClipboard(text, btn, successLabel, keepPrimary) {
+        function onSuccess() {
+          flashButton(btn, successLabel || "✓ Скопировано!", keepPrimary);
+        }
+
+        function fallbackCopy() {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.top = "-9999px";
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          try {
+            document.execCommand("copy");
+            onSuccess();
+          } catch (e) {
+            alert("Не удалось скопировать автоматически. Откройте «Текстовый отчёт» внизу страницы и скопируйте вручную.");
+          }
+          document.body.removeChild(ta);
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(onSuccess).catch(fallbackCopy);
+        } else {
+          fallbackCopy();
+        }
+      }
+
+      function shareReport(btn) {
+        var text = buildReportText();
+        var note = $("clientNote").value.trim();
+        var title = "MyWellness NetCheck" + (note ? (" — " + note) : "");
+        var isPrimary = btn && btn.classList.contains("btn-primary");
+
+        if (navigator.share) {
+          navigator.share({
+            title: title,
+            text: text
+          }).catch(function(err) {
+            if (err && err.name === "AbortError") return;
+            copyTextToClipboard(text, btn, "✓ Скопировано — вставьте в чат", isPrimary);
+          });
+        } else {
+          copyTextToClipboard(text, btn, "✓ Скопировано — вставьте в чат", isPrimary);
+        }
+      }
+
+      /* ================= EVENT BINDINGS & INIT ================= */
+
+      $("versionBadge").textContent = "NetCheck " + APP_VERSION;
+      $("footerVersion").textContent = "Service Report Diagnostics · " + APP_VERSION;
+      $("drawerFooter").textContent = "Service Report NetCheck · " + APP_VERSION;
+      $("startBtn").textContent = "Запустить проверку (" + ENDPOINTS.length + ")";
+      $("filterAll").textContent = "Все (" + ENDPOINTS.length + ")";
+
+      $("burgerBtn").addEventListener("click", openDrawer);
+      $("drawerCloseBtn").addEventListener("click", closeDrawer);
+      $("drawerBackdrop").addEventListener("click", closeDrawer);
+      $("brandBtn").addEventListener("click", function() { switchView("check"); });
+
+      var navItems = document.querySelectorAll("[data-nav]");
+      for (var n = 0; n < navItems.length; n++) {
+        (function(btn) {
+          btn.addEventListener("click", function() {
+            switchView(btn.getAttribute("data-nav"));
+          });
+        })(navItems[n]);
+      }
+
+      $("startBtn").addEventListener("click", startDiagnostics);
+      $("copyBtn").addEventListener("click", function() {
+        copyTextToClipboard(buildReportText(), $("copyBtn"), "✓ Скопировано!", false);
+      });
+      $("shareBtn").addEventListener("click", function() { shareReport($("shareBtn")); });
+
+      $("receivedCopyBtn").addEventListener("click", function() {
+        copyTextToClipboard(buildReportText(), $("receivedCopyBtn"), "✓ Скопировано!", false);
+      });
+      $("receivedShareBtn").addEventListener("click", function() { shareReport($("receivedShareBtn")); });
+      $("exitViewerBtn").addEventListener("click", exitViewerMode);
+
+      $("filterAll").addEventListener("click", function() { setFilter("all"); });
+      $("filterFail").addEventListener("click", function() { setFilter("fail"); });
+
+      $("qrModeUrl").addEventListener("click", function() { setQrMode("url"); });
+      $("qrModeText").addEventListener("click", function() { setQrMode("text"); });
+
+      $("diagTabClub").addEventListener("click", function() { setGuideRole("club"); });
+      $("diagTabIt").addEventListener("click", function() { setGuideRole("it"); });
+      $("guideTabClub").addEventListener("click", function() { setGuideRole("club"); });
+      $("guideTabIt").addEventListener("click", function() { setGuideRole("it"); });
+
+      $("quickGuideBtn").addEventListener("click", function() { switchView("guide"); });
+      $("openFullGuideBtn").addEventListener("click", function() { switchView("guide"); });
+      $("backToCheckFromGuide").addEventListener("click", function() { switchView("check"); });
+      $("backToCheckFromHowto").addEventListener("click", function() { switchView("check"); });
+
+      $("copyItSpecBtn").addEventListener("click", function() {
+        copyTextToClipboard(buildItSpecText(), $("copyItSpecBtn"), "✓ ТЗ скопировано в буфер!", false);
+      });
+
+      $("clientNote").addEventListener("input", function() {
+        $("rawLogArea").value = buildReportText();
+        if (hasCompletedTest && !isViewerMode) renderQrSection();
+      });
+
+      renderReferenceGrid();
+      renderStandaloneGuide();
+
+      if (!tryLoadFromHash()) {
+        initList();
+        detectLocation();
+      }
+    })();
   </script>
 </body>
 </html>
