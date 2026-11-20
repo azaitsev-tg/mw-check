@@ -935,7 +935,7 @@
         </button>
         <div id="brandBtn" class="brand">Service Report<span class="brand-dot">.</span></div>
       </div>
-      <div id="versionBadge" class="header-badge">NetCheck v2.1.0</div>
+      <div id="versionBadge" class="header-badge">NetCheck v2.1.1</div>
     </div>
   </header>
 
@@ -960,7 +960,7 @@
         <span class="nav-item-sub">Как провести тест + коды #01–#41</span>
       </button>
     </nav>
-    <div id="drawerFooter" class="drawer-footer">Service Report NetCheck · v2.1.0</div>
+    <div id="drawerFooter" class="drawer-footer">Service Report NetCheck · v2.1.1</div>
   </aside>
 
   <main class="container">
@@ -1044,7 +1044,7 @@
         </div>
       </section>
 
-      <!-- Smart Diagnosis Card (appears after test) -->
+      <!-- Smart Diagnosis Card -->
       <section id="smartDiagCard" class="card hidden">
         <div class="toolbar">
           <div class="section-title">Автодиагноз по результатам теста</div>
@@ -1187,7 +1187,7 @@
       </section>
     </div>
 
-    <footer id="footerVersion" class="footer">Service Report Diagnostics · v2.1.0</footer>
+    <footer id="footerVersion" class="footer">Service Report Diagnostics · v2.1.1</footer>
   </main>
 
   <script src="vendor/qrcode.js"></script>
@@ -1195,7 +1195,7 @@
     (function() {
       "use strict";
 
-      var APP_VERSION = "v2.1.0";
+      var APP_VERSION = "v2.1.1";
 
       var ENDPOINTS = [
         { id: 1,  url: "https://www.mywellness.com/robots.txt", critical: true },
@@ -1277,11 +1277,9 @@
       }
 
       function escapeHtml(str) {
-        return String(str)
-          .replace(/&/g, "&")
-          .replace(/</g, "<")
-          .replace(/>/g, ">")
-          .replace(/"/g, """);
+        var div = document.createElement("div");
+        div.appendChild(document.createTextNode(String(str)));
+        return div.innerHTML;
       }
 
       function shortDeviceFromUA(ua) {
