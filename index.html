@@ -12,6 +12,7 @@
       --border: #2a2a32;
       --accent: #ffd200;
       --accent-hover: #ffe047;
+      --accent-soft: rgba(255, 210, 0, 0.12);
       --text-main: #f4f4f6;
       --text-muted: #9ca3af;
       --ok: #22c55e;
@@ -32,16 +33,21 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
       background-color: var(--bg-primary);
       color: var(--text-main);
-      line-height: 1.45;
+      line-height: 1.48;
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 40px;
+      padding-bottom: 44px;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
+    /* Sticky Blurred Header */
     .header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(11, 11, 13, 0.85);
+      background: rgba(11, 11, 13, 0.86);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
@@ -49,7 +55,7 @@
     }
 
     .header-inner {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -79,14 +85,14 @@
       font-weight: 700;
       letter-spacing: 0.04em;
       color: var(--accent);
-      background: rgba(255, 210, 0, 0.1);
+      background: var(--accent-soft);
       border: 1px solid rgba(255, 210, 0, 0.25);
       padding: 4px 8px;
       border-radius: 6px;
     }
 
     .container {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
       padding: 16px;
     }
@@ -97,6 +103,11 @@
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 14px;
+    }
+
+    .card-highlight {
+      border-color: rgba(255, 210, 0, 0.45);
+      background: linear-gradient(180deg, rgba(255, 210, 0, 0.06) 0%, var(--bg-surface) 100%);
     }
 
     .notice {
@@ -134,6 +145,7 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       color: var(--text-main);
       font-weight: 600;
+      word-break: break-word;
     }
 
     .input-group {
@@ -172,9 +184,15 @@
       gap: 10px;
     }
 
-    @media (min-width: 520px) {
-      .actions {
-        grid-template-columns: 1fr 1fr;
+    .actions-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 560px) {
+      .actions-3 {
+        grid-template-columns: 1.3fr 1fr 1fr;
       }
     }
 
@@ -184,13 +202,13 @@
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 13px 16px;
+      padding: 13px 14px;
       font-size: 14px;
       font-weight: 700;
       border-radius: 8px;
       border: none;
       cursor: pointer;
-      transition: transform 0.1s, background-color 0.15s, opacity 0.15s;
+      transition: transform 0.1s, background-color 0.15s, opacity 0.15s, border-color 0.15s;
       text-align: center;
     }
 
@@ -199,7 +217,7 @@
     }
 
     .btn:disabled {
-      opacity: 0.45;
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
@@ -229,6 +247,29 @@
       color: var(--ok);
     }
 
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px dashed var(--border);
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    /* Received Report Banner */
+    .received-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 8px 0 14px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .received-meta strong {
+      color: var(--text-main);
+    }
+
+    /* Stats */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -277,8 +318,235 @@
       transition: width 0.2s ease;
     }
 
+    /* QR Code Section */
+    .qr-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .qr-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    @media (min-width: 560px) {
+      .qr-layout {
+        grid-template-columns: 230px 1fr;
+      }
+    }
+
+    .qr-box {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px;
+      width: 230px;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .qr-box svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .qr-info h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .qr-info p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .qr-meta {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* Smart Diagnosis & Mini-Guide */
+    .diag-banner {
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .diag-banner.status-ok {
+      background: var(--ok-bg);
+      border-color: rgba(34, 197, 94, 0.35);
+    }
+
+    .diag-banner.status-warn {
+      background: var(--wait-bg);
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+
+    .diag-banner.status-fail {
+      background: var(--fail-bg);
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+
+    .diag-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .diag-banner.status-ok .diag-title { color: var(--ok); }
+    .diag-banner.status-warn .diag-title { color: var(--wait); }
+    .diag-banner.status-fail .diag-title { color: var(--fail); }
+
+    .diag-summary {
+      font-size: 13px;
+      color: var(--text-main);
+    }
+
+    .role-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: var(--bg-primary);
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .role-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.15s, color 0.15s;
+    }
+
+    .role-tab.active {
+      background: var(--accent);
+      color: #0b0b0d;
+    }
+
+    .guide-steps {
+      list-style: none;
+      counter-reset: guide-step;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .guide-steps li {
+      counter-increment: guide-step;
+      position: relative;
+      padding: 10px 12px 10px 40px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .guide-steps li::before {
+      content: counter(guide-step);
+      position: absolute;
+      left: 11px;
+      top: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(255, 210, 0, 0.35);
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .guide-steps li strong {
+      display: block;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    /* Collapsible Full Checklist */
+    details.accordion {
+      margin-top: 14px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    details.accordion summary {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checklist-items {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .check-row input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--accent);
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .check-row strong {
+      color: var(--text-main);
+    }
+
+    .check-row.checked {
+      opacity: 0.55;
+      text-decoration: line-through;
+    }
+
+    /* Filter Tabs & Domain List */
     .toolbar {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 10px;
@@ -304,7 +572,7 @@
       color: var(--text-muted);
       font-size: 12px;
       font-weight: 600;
-      padding: 4px 10px;
+      padding: 5px 10px;
       border-radius: 6px;
       cursor: pointer;
     }
@@ -328,11 +596,24 @@
       background: var(--bg-primary);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 10px 12px;
+      padding: 9px 12px;
     }
 
-    .domain-item.hidden {
-      display: none;
+    .domain-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .domain-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg-surface-2);
+      padding: 2px 5px;
+      border-radius: 4px;
+      flex-shrink: 0;
     }
 
     .domain-name {
@@ -375,7 +656,7 @@
 
     .raw-textarea {
       width: 100%;
-      height: 200px;
+      height: 210px;
       margin-top: 10px;
       background: var(--bg-primary);
       border: 1px solid var(--border);
@@ -402,14 +683,27 @@
   <header class="header">
     <div class="header-inner">
       <div class="brand">Service Report<span class="brand-dot">.</span></div>
-      <div id="versionBadge" class="header-badge">NetCheck v1.1.0</div>
+      <div id="versionBadge" class="header-badge">NetCheck v2.0.0</div>
     </div>
   </header>
 
   <main class="container">
-    <section class="card">
+
+    <!-- Banner when report is opened via QR code from console -->
+    <section id="receivedCard" class="card card-highlight hidden">
+      <div class="section-title" style="color: var(--accent);">Отчёт принят по QR-коду с тренажёра</div>
+      <div id="receivedMeta" class="received-meta"></div>
+      <div class="actions-row">
+        <button id="receivedShareBtn" class="btn btn-primary" onclick="shareReport(this)">Поделиться отчётом</button>
+        <button id="receivedCopyBtn" class="btn btn-secondary ready" onclick="copyReport(this)">Скопировать лог</button>
+      </div>
+      <button class="btn btn-ghost" onclick="exitViewerMode()">Запустить новый тест на этом устройстве</button>
+    </section>
+
+    <!-- Main Control Card -->
+    <section id="controlCard" class="card">
       <div class="notice">
-        <strong>Инструкция:</strong> перед запуском отключите мобильный интернет (4G/5G) и подключите устройство к Wi-Fi сети, в которой работают тренажёры. После завершения нажмите <strong>«Скопировать лог»</strong> и отправьте инженеру.
+        <strong>Инструкция:</strong> на смартфоне отключите мобильный интернет (4G/5G) и подключитесь к Wi-Fi зала. На тренажёре Live просто нажмите запуск, а затем отсканируйте QR-код телефоном, чтобы отправить отчёт инженеру.
       </div>
 
       <div class="geo-strip">
@@ -418,16 +712,18 @@
       </div>
 
       <div class="input-group">
-        <label class="input-label" for="clientNote">Название клуба или комментарий (необязательно)</label>
-        <input type="text" id="clientNote" class="text-input" placeholder="Например: Фитнес-клуб Олимп, зал кардио">
+        <label class="input-label" for="clientNote">Название клуба или номер тренажёра (необязательно)</label>
+        <input type="text" id="clientNote" class="text-input" placeholder="Например: Клуб Олимп, дорожка №3">
       </div>
 
-      <div class="actions">
+      <div class="actions actions-3">
         <button id="startBtn" class="btn btn-primary" onclick="startDiagnostics()">Запустить проверку (41)</button>
-        <button id="copyBtn" class="btn btn-secondary" onclick="copyReport()" disabled>Скопировать лог</button>
+        <button id="shareBtn" class="btn btn-secondary" onclick="shareReport(this)" disabled>Поделиться</button>
+        <button id="copyBtn" class="btn btn-secondary" onclick="copyReport(this)" disabled>Скопировать</button>
       </div>
     </section>
 
+    <!-- Progress & Stats -->
     <section class="card">
       <div class="stats-grid">
         <div class="stat-box">
@@ -448,76 +744,129 @@
       </div>
     </section>
 
+    <!-- QR Handoff Card (shown after test finishes in normal mode) -->
+    <section id="qrCard" class="card hidden">
+      <div class="qr-header">
+        <div class="section-title">Передать отчёт с тренажёра (QR-код)</div>
+        <div class="filter-pills">
+          <button id="qrModeUrl" class="pill active" onclick="setQrMode('url')">Ссылка на телефон</button>
+          <button id="qrModeText" class="pill" onclick="setQrMode('text')">Текст (коды, офлайн)</button>
+        </div>
+      </div>
+      <div class="qr-layout">
+        <div id="qrBox" class="qr-box"></div>
+        <div class="qr-info">
+          <h3 id="qrTitle">Наведите камеру телефона на QR-код</h3>
+          <p id="qrDesc">На телефоне откроется расшифрованный отчёт с кнопкой «Поделиться» для отправки в Telegram, WhatsApp или на почту.</p>
+          <div id="qrPreview" class="qr-meta"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Smart Diagnosis & Two-Tab Mini-Guide -->
+    <section id="guideCard" class="card hidden">
+      <div class="toolbar">
+        <div class="section-title">Диагноз и пошаговая проверка</div>
+      </div>
+
+      <div id="diagBanner" class="diag-banner status-ok">
+        <div id="diagTitle" class="diag-title"></div>
+        <div id="diagSummary" class="diag-summary"></div>
+      </div>
+
+      <div class="role-tabs">
+        <button id="tabClub" class="role-tab active" onclick="setGuideRole('club')">Для сотрудника клуба</button>
+        <button id="tabIt" class="role-tab" onclick="setGuideRole('it')">Для IT-специалиста</button>
+      </div>
+
+      <ol id="smartSteps" class="guide-steps"></ol>
+
+      <details class="accordion">
+        <summary>Полный чеклист всех проверок (развернуть по шагам)</summary>
+        <div id="fullChecklist" class="checklist-items"></div>
+      </details>
+    </section>
+
+    <!-- Endpoints List -->
     <section class="card">
       <div class="toolbar">
         <div class="section-title">Узлы Technogym Cloud / AWS</div>
         <div class="filter-pills">
           <button id="filterAll" class="pill active" onclick="setFilter('all')">Все (41)</button>
-          <button id="filterFail" class="pill" onclick="setFilter('fail')">Только ошибки</button>
+          <button id="filterFail" class="pill" onclick="setFilter('fail')">Только ошибки (0)</button>
         </div>
       </div>
       <div id="domainList" class="domain-list"></div>
     </section>
 
+    <!-- Fallback Raw Log -->
     <details class="raw-log-box">
-      <summary>Текстовый отчёт (если кнопка копирования не сработала)</summary>
+      <summary>Текстовый отчёт (для ручного копирования)</summary>
       <textarea id="rawLogArea" class="raw-textarea" readonly placeholder="Запустите проверку, чтобы сформировать отчёт..."></textarea>
     </details>
 
-    <footer id="footerVersion" class="footer">Service Report Diagnostics · v1.1.0</footer>
+    <footer id="footerVersion" class="footer">Service Report Diagnostics · v2.0.0</footer>
   </main>
 
+  <!-- Local vendored QR generator (zero external CDN dependency) -->
+  <script src="vendor/qrcode.js"></script>
   <script>
-    var APP_VERSION = "v1.1.0";
+    var APP_VERSION = "v2.0.0";
 
+    // optional: true — узлы, которые часто отдают KO/Timeout даже в эталонном тесте Technogym
     var ENDPOINTS = [
-      "https://www.mywellness.com/robots.txt",
-      "https://account.mywellness.com",
-      "https://achievement.mywellness.com",
-      "https://ai-api.mywellness.com",
-      "https://api.mywellness.com",
-      "https://api-exerp.mywellness.com",
-      "https://assessment.mywellness.com",
-      "https://booking.mywellness.com/say33",
-      "https://calendar.mywellness.com",
-      "https://challenges.mywellness.com",
-      "https://cms.mywellness.com",
-      "https://coach.mywellness.com",
-      "https://comm.mywellness.com",
-      "https://contentrelease.mywellness.com",
-      "https://core.mywellness.com",
-      "https://core.mywellness.com/say33",
-      "https://eam.mywellness.com",
-      "https://eam-api.mywellness.com",
-      "https://fuse.mywellness.com",
-      "https://iotcore.mywellness.com",
-      "https://leaderboards.mywellness.com",
-      "https://meet.mywellness.com",
-      "https://oid.mywellness.com",
-      "https://pay.mywellness.com",
-      "https://races.mywellness.com",
-      "https://reporting.mywellness.com",
-      "https://services.mywellness.com",
-      "https://storeapi.mywellness.com",
-      "https://training.mywellness.com",
-      "https://ud.mywellness.com",
-      "https://workout.mywellness.com",
-      "https://workout.mywellness.com/say33",
-      "https://onedevice-api.technogym.com/api/v1/status",
-      "https://www.technogym.com",
-      "https://www.worldweatheronline.com",
-      "https://google.com",
-      "https://googleapis.com",
-      "https://google-analytics.com",
-      "https://facebook.com",
-      "https://fbcdn.net",
-      "https://amazonaws.com"
+      { id: 1,  url: "https://www.mywellness.com/robots.txt", critical: true },
+      { id: 2,  url: "https://account.mywellness.com", critical: true },
+      { id: 3,  url: "https://achievement.mywellness.com", critical: false },
+      { id: 4,  url: "https://ai-api.mywellness.com", critical: false },
+      { id: 5,  url: "https://api.mywellness.com", critical: true },
+      { id: 6,  url: "https://api-exerp.mywellness.com", critical: false },
+      { id: 7,  url: "https://assessment.mywellness.com", critical: false },
+      { id: 8,  url: "https://booking.mywellness.com/say33", critical: false },
+      { id: 9,  url: "https://calendar.mywellness.com", critical: false },
+      { id: 10, url: "https://challenges.mywellness.com", critical: false },
+      { id: 11, url: "https://cms.mywellness.com", critical: false },
+      { id: 12, url: "https://coach.mywellness.com", optional: true },
+      { id: 13, url: "https://comm.mywellness.com", critical: false },
+      { id: 14, url: "https://contentrelease.mywellness.com", optional: true },
+      { id: 15, url: "https://core.mywellness.com", critical: true },
+      { id: 16, url: "https://core.mywellness.com/say33", critical: true },
+      { id: 17, url: "https://eam.mywellness.com", critical: false },
+      { id: 18, url: "https://eam-api.mywellness.com", critical: false },
+      { id: 19, url: "https://fuse.mywellness.com", critical: false },
+      { id: 20, url: "https://iotcore.mywellness.com", critical: true },
+      { id: 21, url: "https://leaderboards.mywellness.com", critical: false },
+      { id: 22, url: "https://meet.mywellness.com", critical: false },
+      { id: 23, url: "https://oid.mywellness.com", critical: true },
+      { id: 24, url: "https://pay.mywellness.com", critical: false },
+      { id: 25, url: "https://races.mywellness.com", critical: false },
+      { id: 26, url: "https://reporting.mywellness.com", critical: false },
+      { id: 27, url: "https://services.mywellness.com", critical: true },
+      { id: 28, url: "https://storeapi.mywellness.com", critical: false },
+      { id: 29, url: "https://training.mywellness.com", critical: false },
+      { id: 30, url: "https://ud.mywellness.com", critical: true },
+      { id: 31, url: "https://workout.mywellness.com", critical: true },
+      { id: 32, url: "https://workout.mywellness.com/say33", critical: true },
+      { id: 33, url: "https://onedevice-api.technogym.com/api/v1/status", critical: true },
+      { id: 34, url: "https://www.technogym.com", critical: false },
+      { id: 35, url: "https://www.worldweatheronline.com", critical: false },
+      { id: 36, url: "https://google.com", critical: false },
+      { id: 37, url: "https://googleapis.com", critical: false },
+      { id: 38, url: "https://google-analytics.com", optional: true },
+      { id: 39, url: "https://facebook.com", optional: true },
+      { id: 40, url: "https://fbcdn.net", optional: true },
+      { id: 41, url: "https://amazonaws.com", optional: true }
     ];
 
     var results = [];
     var isRunning = false;
+    var isViewerMode = false;
+    var hasCompletedTest = false;
     var currentFilter = "all";
+    var currentQrMode = "url";
+    var currentGuideRole = "club";
     var testTimestamp = "";
+    var reportDeviceLabel = "";
 
     var clientGeo = {
       location: "Не определена",
@@ -529,6 +878,51 @@
     try {
       clientGeo.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "н/д";
     } catch (e) {}
+
+    function pad2(n) {
+      return n < 10 ? "0" + n : "" + n;
+    }
+
+    function shortDeviceFromUA(ua) {
+      ua = ua || navigator.userAgent || "";
+      var os = "Unknown OS";
+      var mAnd = ua.match(/Android\s+([0-9.]+)/i);
+      var mIos = ua.match(/OS\s+([0-9_]+)\s+like Mac/i);
+      if (mAnd) os = "Android " + mAnd[1];
+      else if (mIos) os = "iOS " + mIos[1].replace(/_/g, ".");
+      else if (/Windows NT 10/i.test(ua)) os = "Windows 10/11";
+      else if (/Mac OS X/i.test(ua)) os = "macOS";
+      else if (/Linux/i.test(ua)) os = "Linux";
+
+      var br = "";
+      var mEdg = ua.match(/Edg\/([0-9]+)/i);
+      var mChr = ua.match(/Chrome\/([0-9]+)/i);
+      var mSaf = ua.match(/Version\/([0-9.]+).*Safari/i);
+      if (mEdg) br = "Edge " + mEdg[1];
+      else if (mChr) br = "Chrome " + mChr[1];
+      else if (mSaf) br = "Safari " + mSaf[1];
+
+      return br ? (os + " / " + br) : os;
+    }
+
+    function toBase64Url(str) {
+      var utf8 = unescape(encodeURIComponent(str));
+      return btoa(utf8).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    }
+
+    function fromBase64Url(b64) {
+      var pad = b64.replace(/-/g, "+").replace(/_/g, "/");
+      while (pad.length % 4) pad += "=";
+      return decodeURIComponent(escape(atob(pad)));
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&")
+        .replace(/</g, "<")
+        .replace(/>/g, ">")
+        .replace(/"/g, """);
+    }
 
     document.getElementById("versionBadge").textContent = "NetCheck " + APP_VERSION;
     document.getElementById("footerVersion").textContent = "Service Report Diagnostics · " + APP_VERSION;
@@ -608,6 +1002,7 @@
           }
           geoEl.textContent = summary;
           document.getElementById("rawLogArea").value = buildReportText();
+          if (hasCompletedTest && !isViewerMode) renderQrSection();
         });
     }
 
@@ -617,12 +1012,15 @@
       results = [];
 
       for (var i = 0; i < ENDPOINTS.length; i++) {
-        var url = ENDPOINTS[i];
-        var label = url.replace(/^https?:\/\//, "");
+        var ep = ENDPOINTS[i];
+        var label = ep.url.replace(/^https?:\/\//, "");
         results.push({
-          url: url,
+          id: ep.id,
+          url: ep.url,
           label: label,
-          status: "idle",
+          critical: !!ep.critical,
+          optional: !!ep.optional,
+          status: "idle",    // idle | wait | ok | timeout | fail
           detail: "Ожидание",
           ms: null
         });
@@ -631,7 +1029,10 @@
         row.className = "domain-item";
         row.id = "row-" + i;
         row.innerHTML =
-          '<span class="domain-name">' + label + '</span>' +
+          '<div class="domain-left">' +
+            '<span class="domain-code">#' + pad2(ep.id) + '</span>' +
+            '<span class="domain-name">' + escapeHtml(label) + '</span>' +
+          '</div>' +
           '<span id="badge-' + i + '" class="badge badge-idle">Ожидание</span>';
         container.appendChild(row);
       }
@@ -648,7 +1049,8 @@
       for (var i = 0; i < results.length; i++) {
         var row = document.getElementById("row-" + i);
         if (!row) continue;
-        if (currentFilter === "fail" && results[i].status !== "fail") {
+        var isErr = results[i].status === "fail" || results[i].status === "timeout";
+        if (currentFilter === "fail" && !isErr) {
           row.classList.add("hidden");
         } else {
           row.classList.remove("hidden");
@@ -658,7 +1060,7 @@
 
     function checkSingle(index) {
       return new Promise(function(resolve) {
-        var targetUrl = ENDPOINTS[index];
+        var targetUrl = ENDPOINTS[index].url;
         var badge = document.getElementById("badge-" + index);
         results[index].status = "wait";
         badge.className = "badge badge-wait";
@@ -671,7 +1073,7 @@
         var timer = setTimeout(function() {
           if (!finished) {
             finished = true;
-            results[index].status = "fail";
+            results[index].status = "timeout";
             results[index].detail = "TIMEOUT (>5s)";
             badge.className = "badge badge-fail";
             badge.textContent = "TIMEOUT (>5s)";
@@ -714,23 +1116,23 @@
     function updateProgress() {
       var done = 0;
       var ok = 0;
-      var fail = 0;
+      var err = 0;
 
       for (var i = 0; i < results.length; i++) {
         if (results[i].status === "ok") {
           done++;
           ok++;
-        } else if (results[i].status === "fail") {
+        } else if (results[i].status === "fail" || results[i].status === "timeout") {
           done++;
-          fail++;
+          err++;
         }
       }
 
       document.getElementById("statDone").textContent = done + " / " + ENDPOINTS.length;
       document.getElementById("statOk").textContent = ok;
-      document.getElementById("statFail").textContent = fail;
+      document.getElementById("statFail").textContent = err;
       document.getElementById("progressFill").style.width = Math.round((done / ENDPOINTS.length) * 100) + "%";
-      document.getElementById("filterFail").textContent = "Только ошибки (" + fail + ")";
+      document.getElementById("filterFail").textContent = "Только ошибки (" + err + ")";
 
       applyFilter();
       document.getElementById("rawLogArea").value = buildReportText();
@@ -739,20 +1141,29 @@
     function startDiagnostics() {
       if (isRunning) return;
       isRunning = true;
+      hasCompletedTest = false;
+      reportDeviceLabel = shortDeviceFromUA(navigator.userAgent);
 
       var startBtn = document.getElementById("startBtn");
       var copyBtn = document.getElementById("copyBtn");
+      var shareBtn = document.getElementById("shareBtn");
+
       startBtn.disabled = true;
       startBtn.textContent = "Выполняется проверка...";
       copyBtn.disabled = true;
       copyBtn.className = "btn btn-secondary";
-      copyBtn.textContent = "Скопировать лог";
+      copyBtn.textContent = "Скопировать";
+      shareBtn.disabled = true;
+      shareBtn.className = "btn btn-secondary";
+      shareBtn.textContent = "Поделиться";
+
+      document.getElementById("qrCard").classList.add("hidden");
+      document.getElementById("guideCard").classList.add("hidden");
 
       testTimestamp = new Date().toLocaleString("ru-RU");
       initList();
       updateProgress();
 
-      // Обновляем GeoIP при старте теста на случай смены сети (4G -> Wi-Fi)
       var geoPromise = detectLocation();
 
       var cursor = 0;
@@ -776,88 +1187,462 @@
 
       Promise.all(workers).then(function() {
         isRunning = false;
+        hasCompletedTest = true;
         startBtn.disabled = false;
         startBtn.textContent = "Повторить проверку";
         copyBtn.disabled = false;
         copyBtn.className = "btn btn-secondary ready";
+        shareBtn.disabled = false;
+        shareBtn.className = "btn btn-secondary ready";
+
         document.getElementById("rawLogArea").value = buildReportText();
+        renderQrSection();
+        renderGuide();
       });
     }
 
-    function buildReportText() {
-      var okList = [];
-      var failList = [];
-      var waitList = [];
+    /* ================= QR ENCODING & DECODING ================= */
+
+    function buildStatusVector() {
+      var chars = [];
+      for (var i = 0; i < results.length; i++) {
+        var st = results[i].status;
+        if (st === "ok") chars.push("1");
+        else if (st === "timeout") chars.push("T");
+        else if (st === "fail") chars.push("F");
+        else chars.push("0");
+      }
+      return chars.join("");
+    }
+
+    function buildCompactShareUrl() {
+      var note = document.getElementById("clientNote").value.trim().slice(0, 36);
+      var locShort = (clientGeo.location || "").slice(0, 40);
+      var ispShort = (clientGeo.isp || "").slice(0, 28);
+      var payloadObj = {
+        v: 2,
+        t: testTimestamp || new Date().toLocaleString("ru-RU"),
+        n: note,
+        l: locShort,
+        ip: clientGeo.ip !== "н/д" ? clientGeo.ip : "",
+        isp: ispShort !== "н/д" ? ispShort : "",
+        tz: clientGeo.timezone !== "н/д" ? clientGeo.timezone : "",
+        d: reportDeviceLabel || shortDeviceFromUA(navigator.userAgent),
+        s: buildStatusVector()
+      };
+      var base = window.location.href.split("#")[0].split("?")[0];
+      return base + "#r=" + toBase64Url(JSON.stringify(payloadObj));
+    }
+
+    function buildCompactOfflineText() {
+      var okCount = 0;
+      var toIds = [];
+      var flIds = [];
+
+      for (var i = 0; i < results.length; i++) {
+        if (results[i].status === "ok") okCount++;
+        else if (results[i].status === "timeout") toIds.push(results[i].id);
+        else if (results[i].status === "fail") flIds.push(results[i].id);
+      }
+
+      var note = document.getElementById("clientNote").value.trim().slice(0, 32);
+      var lines = [
+        "MW " + APP_VERSION + " | " + (testTimestamp || ""),
+        (note ? ("Obj: " + note) : "Obj: -"),
+        "Geo: " + clientGeo.location + (clientGeo.ip !== "н/д" ? (" (" + clientGeo.ip + ")") : ""),
+        "ISP: " + clientGeo.isp,
+        "Dev: " + (reportDeviceLabel || shortDeviceFromUA(navigator.userAgent)),
+        "OK: " + okCount + "/" + ENDPOINTS.length + " | TO:" + toIds.length + " FL:" + flIds.length
+      ];
+      if (toIds.length > 0) lines.push("TO: " + toIds.join(","));
+      if (flIds.length > 0) lines.push("FL: " + flIds.join(","));
+      return lines.join("\n");
+    }
+
+    function renderQrSvg(text) {
+      if (typeof qrcode === "undefined") {
+        return '<div style="padding:16px;color:#111;font-size:12px;text-align:center;">Библиотека vendor/qrcode.js не загружена</div>';
+      }
+      if (qrcode.stringToBytesFuncs && qrcode.stringToBytesFuncs["UTF-8"]) {
+        qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+      }
+      var qr = qrcode(0, "L");
+      qr.addData(text);
+      qr.make();
+      var count = qr.getModuleCount();
+      var margin = 4;
+      var size = count + margin * 2;
+      var rects = ['<rect width="100%" height="100%" fill="#ffffff"/>'];
+      for (var r = 0; r < count; r++) {
+        for (var c = 0; c < count; c++) {
+          if (qr.isDark(r, c)) {
+            rects.push('<rect x="' + (c + margin) + '" y="' + (r + margin) + '" width="1" height="1" fill="#000000"/>');
+          }
+        }
+      }
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" shape-rendering="crispEdges">' + rects.join("") + '</svg>';
+    }
+
+    function setQrMode(mode) {
+      currentQrMode = mode;
+      document.getElementById("qrModeUrl").className = mode === "url" ? "pill active" : "pill";
+      document.getElementById("qrModeText").className = mode === "text" ? "pill active" : "pill";
+      renderQrSection();
+    }
+
+    function renderQrSection() {
+      var qrCard = document.getElementById("qrCard");
+      qrCard.classList.remove("hidden");
+
+      var qrBox = document.getElementById("qrBox");
+      var qrTitle = document.getElementById("qrTitle");
+      var qrDesc = document.getElementById("qrDesc");
+      var qrPreview = document.getElementById("qrPreview");
+
+      var compactSummary = buildCompactOfflineText();
+
+      if (currentQrMode === "url") {
+        var shareUrl = buildCompactShareUrl();
+        qrBox.innerHTML = renderQrSvg(shareUrl);
+        qrTitle.textContent = "Отсканируйте камерой телефона";
+        qrDesc.textContent = "На телефоне сразу откроется расшифрованный отчёт с кнопкой «Поделиться» для отправки в Telegram, WhatsApp или на почту.";
+        qrPreview.textContent = compactSummary;
+      } else {
+        qrBox.innerHTML = renderQrSvg(compactSummary);
+        qrTitle.textContent = "Компактный текст (работает офлайн)";
+        qrDesc.textContent = "Содержит локацию и короткие числовые коды (#) недоступных узлов (TO — таймаут, FL — отказ). Отправьте считанный текст инженеру.";
+        qrPreview.textContent = compactSummary;
+      }
+    }
+
+    function tryLoadFromHash() {
+      var hash = window.location.hash || "";
+      if (hash.indexOf("#r=") !== 0) return false;
+
+      try {
+        var encoded = hash.slice(3);
+        var data = JSON.parse(fromBase64Url(encoded));
+        if (!data || !data.s) return false;
+
+        isViewerMode = true;
+        hasCompletedTest = true;
+        testTimestamp = data.t || "";
+        clientGeo.location = data.l || "Не определена";
+        clientGeo.ip = data.ip || "н/д";
+        clientGeo.isp = data.isp || "н/д";
+        clientGeo.timezone = data.tz || "н/д";
+        reportDeviceLabel = data.d || "Устройство тренажёра";
+        document.getElementById("clientNote").value = data.n || "";
+
+        initList();
+
+        var vec = data.s;
+        for (var i = 0; i < ENDPOINTS.length; i++) {
+          var ch = vec.charAt(i);
+          var badge = document.getElementById("badge-" + i);
+          if (ch === "1") {
+            results[i].status = "ok";
+            results[i].detail = "OK";
+            badge.className = "badge badge-ok";
+            badge.textContent = "OK";
+          } else if (ch === "T") {
+            results[i].status = "timeout";
+            results[i].detail = "TIMEOUT (>5s)";
+            badge.className = "badge badge-fail";
+            badge.textContent = "TIMEOUT (>5s)";
+          } else if (ch === "F") {
+            results[i].status = "fail";
+            results[i].detail = "FAIL";
+            badge.className = "badge badge-fail";
+            badge.textContent = "FAIL";
+          } else {
+            results[i].status = "idle";
+            results[i].detail = "Не проверено";
+            badge.className = "badge badge-idle";
+            badge.textContent = "н/д";
+          }
+        }
+
+        document.getElementById("controlCard").classList.add("hidden");
+        document.getElementById("qrCard").classList.add("hidden");
+        document.getElementById("receivedCard").classList.remove("hidden");
+
+        var metaHtml =
+          "<div><strong>Дата теста:</strong> " + escapeHtml(testTimestamp || "н/д") + "</div>" +
+          (data.n ? ("<div><strong>Объект:</strong> " + escapeHtml(data.n) + "</div>") : "") +
+          "<div><strong>Локация / IP:</strong> " + escapeHtml(clientGeo.location + (clientGeo.ip !== "н/д" ? (" · " + clientGeo.ip) : "")) + "</div>" +
+          (clientGeo.isp !== "н/д" ? ("<div><strong>Провайдер:</strong> " + escapeHtml(clientGeo.isp) + "</div>") : "") +
+          "<div><strong>Устройство:</strong> " + escapeHtml(reportDeviceLabel) + "</div>";
+        document.getElementById("receivedMeta").innerHTML = metaHtml;
+
+        updateProgress();
+        renderGuide();
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function exitViewerMode() {
+      isViewerMode = false;
+      hasCompletedTest = false;
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      } else {
+        window.location.hash = "";
+      }
+      document.getElementById("receivedCard").classList.add("hidden");
+      document.getElementById("controlCard").classList.remove("hidden");
+      document.getElementById("qrCard").classList.add("hidden");
+      document.getElementById("guideCard").classList.add("hidden");
+      initList();
+      updateProgress();
+      detectLocation();
+    }
+
+    /* ================= SMART DIAGNOSIS & MINI-GUIDE ================= */
+
+    function analyzeResults() {
+      var totalOk = 0;
+      var totalTo = 0;
+      var totalFl = 0;
+      var critTo = 0;
+      var critFl = 0;
+      var nonOptTo = 0;
+      var nonOptFl = 0;
 
       for (var i = 0; i < results.length; i++) {
         var r = results[i];
         if (r.status === "ok") {
-          okList.push("[OK]   " + r.url + " — " + r.ms + " ms");
+          totalOk++;
+        } else if (r.status === "timeout") {
+          totalTo++;
+          if (r.critical) critTo++;
+          if (!r.optional) nonOptTo++;
         } else if (r.status === "fail") {
-          failList.push("[FAIL] " + r.url + " — " + r.detail);
+          totalFl++;
+          if (r.critical) critFl++;
+          if (!r.optional) nonOptFl++;
+        }
+      }
+
+      if (totalOk === 0 && (totalTo + totalFl) > 0) {
+        return { type: "offline", totalOk: totalOk, totalTo: totalTo, totalFl: totalFl };
+      }
+      if (critTo === 0 && critFl === 0 && nonOptTo === 0 && nonOptFl === 0) {
+        return { type: "ok", totalOk: totalOk, totalTo: totalTo, totalFl: totalFl };
+      }
+      if ((critTo + nonOptTo) >= (critFl + nonOptFl)) {
+        return { type: "timeout", totalOk: totalOk, totalTo: totalTo, totalFl: totalFl, critTo: critTo, critFl: critFl };
+      }
+      return { type: "fail", totalOk: totalOk, totalTo: totalTo, totalFl: totalFl, critTo: critTo, critFl: critFl };
+    }
+
+    var GUIDE_DATA = {
+      timeout: {
+        statusClass: "status-fail",
+        title: "Трафик MyWellness не доходит до серверов (TIMEOUT)",
+        summary: "Запросы к критическим узлам MyWellness зависают без ответа. Почти всегда это означает, что именно это устройство (тренажёр) выходит в сеть мимо VPN-туннеля или пакеты обрезаются по MTU.",
+        club: [
+          ["Проверьте способ подключения тренажёра", "Если тренажёр подключён кабелем, а на телефоне по Wi-Fi тест прошёл успешно — временно переключите тренажёр в настройках сети на тот же Wi-Fi для проверки."],
+          ["Проверьте, куда идёт кабель Ethernet", "Убедитесь, что розетка/кабель тренажёра приходят в роутер с настроенным VPN, а не в отдельный офисный или гостевой коммутатор."],
+          ["Передайте отчёт IT-специалисту", "Отсканируйте QR-код с экрана тренажёра (или нажмите «Поделиться») и отправьте лог системному администратору клуба вместе с вкладкой «Для IT-специалиста»."]
+        ],
+        it: [
+          ["Проверьте подсеть / VLAN и политику VPN", "Сравните IP и шлюз тренажёра с телефоном (где тест зелёный). Часто LAN-подсеть тренажёров не включена в правила маршрутизации через VPN."],
+          ["Проверьте DNS и отключите Private DNS на Android", "Консоль должна получать DNS от локального роутера по DHCP (не 8.8.8.8 / 1.1.1.1). В настройках Android («Сеть и интернет → Частный DNS») установите «Отключено», иначе роутер не перехватит DNS для доменного split-tunneling."],
+          ["Добавьте домены MyWellness и AWS в списки VPN", "В VPN должны маршрутизироваться *.mywellness.com, *.technogym.com и подсети AWS (включая порт TCP 8883 для iotcore.mywellness.com)."],
+          ["Включите TCP MSS Clamping на VPN-интерфейсе", "Если домены точно идут в VPN, но рвутся по таймауту (при работающем YouTube по QUIC/UDP) — на туннеле фрагментируются крупные пакеты TLS-рукопожатия. Снизьте MTU или включите MSS clamping."]
+        ]
+      },
+      fail: {
+        statusClass: "status-fail",
+        title: "Мгновенный отказ соединения: DNS или SSL-сертификат (FAIL)",
+        summary: "Запросы обрываются сразу, не дожидаясь таймаута. Основные причины: сбитая системная дата/время, ошибка DNS, прокси/SSL-инспекция или устаревшие корневые сертификаты в прошивке Android Live.",
+        club: [
+          ["Проверьте системную дату и время на консоли", "Зайдите в настройки Android на тренажёре («Система → Дата и время»). Неверный год или дата полностью блокируют HTTPS-соединение с MyWellness."],
+          ["Перезагрузите тренажёр по питанию", "Выключите питание тренажёра тумблером на 30 секунд и включите заново, затем повторите проверку."],
+          ["Сравните с телефоном в той же сети", "Если на телефоне в этой же Wi-Fi сети тест зелёный, а на тренажёре мгновенные FAIL — отправьте отчёт сервисному инженеру Technogym (может потребоваться обновление ПО Live OS)."]
+        ],
+        it: [
+          ["Определите точный код ошибки Chromium", "Откройте в браузере консоли напрямую https://mywellness.com: ERR_NAME_NOT_RESOLVED = сбой DNS; ERR_CERT_DATE_INVALID = сбито время; ERR_CERT_AUTHORITY_INVALID = SSL-инспекция или старые Root CA в Android."],
+          ["Откройте UDP 123 (NTP) и проверьте прокси", "Убедитесь, что на фаерволе разрешена синхронизация времени (NTP), отключена SSL-инспекция (MITM) для *.mywellness.com, а в настройках сети консоли не задан ручной HTTP-прокси."],
+          ["Проверьте актуальность Root CA на консоли Live", "Если время точное, а браузер выдаёт ERR_CERT_AUTHORITY_INVALID — в старой сборке Android Live OS отсутствуют актуальные сертификаты ISRG Root X1 / Amazon Root CA. Требуется обновление ПО консоли."]
+        ]
+      },
+      ok: {
+        statusClass: "status-ok",
+        title: "HTTPS-доступность MyWellness в норме",
+        summary: "Все ключевые облачные узлы Technogym и MyWellness отвечают. Единичные ошибки на вспомогательных доменах (amazonaws.com, google-analytics.com, coach, contentrelease) являются нормой и не мешают работе.",
+        club: [
+          ["Убедитесь, что тест пройден именно на тренажёре", "Если сейчас вы проверяли сеть со смартфона — обязательно откройте эту же ссылку во встроенном браузере самого тренажёра Live и повторите тест."],
+          ["Проверьте дату/время и перезагрузите консоль", "Если тест зелёный прямо на тренажёре, но сервисы MyWellness не работают — проверьте актуальность даты/времени и перезагрузите тренажёр по питанию."],
+          ["Передайте отчёт IT-специалисту для проверки порта 8883", "Браузер проверяет только веб-порт 443. Для связи консоли с облаком требуется открытый порт 8883 — переключите вкладку выше на «Для IT-специалиста»."]
+        ],
+        it: [
+          ["Проверьте маршрутизацию порта TCP 8883 (MQTT over TLS)", "Веб-тест проверяет только TCP 443, но телеметрия и статус онлайн консоли идут на iotcore.mywellness.com:8883. Убедитесь, что в VPN заворачивается весь TCP-трафик этих доменов, а не только порты 80/443."],
+          ["Проверьте NTP (UDP 123) и длинные TCP-сессии", "Убедитесь, что фаервол/NAT не рвёт постоянные MQTT-сессии и пропускает NTP."],
+          ["Проверьте привязку оборудования", "Если порты 443 и 8883 открыты напрямую с консоли, но облако не активируется — проверьте статус регистрации оборудования в сервисном меню Live и в кабинете MyWellness."]
+        ]
+      },
+      offline: {
+        statusClass: "status-warn",
+        title: "Нет доступа в интернет с этого устройства",
+        summary: "Ни один из 41 узлов не ответил. Проверьте базовое подключение к Wi-Fi или Ethernet.",
+        club: [
+          ["Проверьте подключение к Wi-Fi или кабелю", "Убедитесь, что на устройстве горит значок подключения к сети и кабель плотно вставлен в разъём тренажёра."],
+          ["Проверьте, нет ли страницы авторизации (Captive Portal)", "Гостевые Wi-Fi сети с вводом номера телефона или SMS-кода не подходят для тренажёров Technogym."]
+        ],
+        it: [
+          ["Проверьте выдачу IP по DHCP и доступность шлюза", "Убедитесь, что интерфейс консоли получил IP-адрес, маску, шлюз и DNS, и что клиент не заблокирован на портале авторизации (Captive Portal) или MAC-фильтре."],
+          ["Проверьте статус VPN-туннеля на роутере", "Если на роутере включён Kill Switch и VPN-туннель упал, весь трафик подсети тренажёров будет полностью заблокирован."]
+        ]
+      }
+    };
+
+    var FULL_CHECKLIST = {
+      club: [
+        "<strong>Сравнение телефон vs тренажёр:</strong> тест запущен на телефоне (Wi-Fi зала, без 4G) и в браузере самого тренажёра Live.",
+        "<strong>Кабель или Wi-Fi:</strong> проверено, что тренажёр подключён к правильной сети зала (не к гостевому Wi-Fi с SMS-авторизацией).",
+        "<strong>Дата и время на консоли:</strong> в настройках Android проверены актуальный год, дата, время и часовой пояс.",
+        "<strong>Перезагрузка питания:</strong> тренажёр выключен тумблером на 30 секунд и включён повторно.",
+        "<strong>Передача отчёта:</strong> лог с самого тренажёра передан по QR-коду на телефон и отправлен инженеру."
+      ],
+      it: [
+        "<strong>Подсеть / VLAN:</strong> Ethernet-подсеть тренажёров включена в те же правила VPN-маршрутизации, что и Wi-Fi.",
+        "<strong>DNS по DHCP:</strong> консоль получает локальный IP роутера как DNS (не 8.8.8.8 / 1.1.1.1), чтобы работал доменный split-tunneling.",
+        "<strong>Android Private DNS:</strong> в настройках Android консоли параметр «Частный DNS» переведён в положение «Отключено (Off)».",
+        "<strong>Порты и протоколы в VPN:</strong> открыты и маршрутизируются TCP 443, TCP 8883 (MQTT → iotcore.mywellness.com) и UDP 123 (NTP).",
+        "<strong>MTU / MSS Clamping:</strong> на VPN-интерфейсе включён TCP MSS Clamping для прохождения TLS-рукопожатий с AWS.",
+        "<strong>Отсутствие MITM / прокси:</strong> отключены ручной HTTP-прокси и SSL-инспекция для *.mywellness.com и *.technogym.com.",
+        "<strong>Сертификаты Live OS:</strong> при открытии https://mywellness.com на консоли нет ошибки ERR_CERT_AUTHORITY_INVALID."
+      ]
+    };
+
+    function setGuideRole(role) {
+      currentGuideRole = role;
+      document.getElementById("tabClub").className = role === "club" ? "role-tab active" : "role-tab";
+      document.getElementById("tabIt").className = role === "it" ? "role-tab active" : "role-tab";
+      renderGuide();
+    }
+
+    function renderGuide() {
+      var guideCard = document.getElementById("guideCard");
+      guideCard.classList.remove("hidden");
+
+      var diag = analyzeResults();
+      var cfg = GUIDE_DATA[diag.type];
+
+      var banner = document.getElementById("diagBanner");
+      banner.className = "diag-banner " + cfg.statusClass;
+      document.getElementById("diagTitle").textContent = cfg.title;
+      document.getElementById("diagSummary").textContent = cfg.summary;
+
+      var steps = cfg[currentGuideRole];
+      var stepsEl = document.getElementById("smartSteps");
+      stepsEl.innerHTML = "";
+      for (var i = 0; i < steps.length; i++) {
+        var li = document.createElement("li");
+        li.innerHTML = "<strong>" + steps[i][0] + "</strong>" + steps[i][1];
+        stepsEl.appendChild(li);
+      }
+
+      var clEl = document.getElementById("fullChecklist");
+      clEl.innerHTML = "";
+      var clItems = FULL_CHECKLIST[currentGuideRole];
+      for (var c = 0; c < clItems.length; c++) {
+        var lbl = document.createElement("label");
+        lbl.className = "check-row";
+        lbl.innerHTML = '<input type="checkbox" onchange="this.parentNode.classList.toggle(\'checked\', this.checked)"><span>' + clItems[c] + '</span>';
+        clEl.appendChild(lbl);
+      }
+    }
+
+    /* ================= REPORT TEXT, SHARE & COPY ================= */
+
+    function buildReportText() {
+      var okList = [];
+      var toList = [];
+      var flList = [];
+      var waitList = [];
+
+      for (var i = 0; i < results.length; i++) {
+        var r = results[i];
+        var code = "#" + pad2(r.id);
+        if (r.status === "ok") {
+          okList.push("[OK]   " + code + " " + r.url + (r.ms !== null ? (" — " + r.ms + " ms") : ""));
+        } else if (r.status === "timeout") {
+          toList.push("[TO]   " + code + " " + r.url + " — TIMEOUT (>5s)");
+        } else if (r.status === "fail") {
+          flList.push("[FAIL] " + code + " " + r.url + " — " + r.detail);
         } else {
-          waitList.push("[WAIT] " + r.url);
+          waitList.push("[WAIT] " + code + " " + r.url);
         }
       }
 
       var note = document.getElementById("clientNote").value.trim() || "Не указан";
-      var connInfo = "н/д";
-      if (navigator.connection) {
-        connInfo = (navigator.connection.type || "") + " " + (navigator.connection.effectiveType || "");
-        connInfo = connInfo.trim() || "н/д";
-      }
+      var errCount = toList.length + flList.length;
+      var diag = hasCompletedTest ? analyzeResults() : null;
+      var diagTitle = diag ? GUIDE_DATA[diag.type].title : "Тест не завершён";
+      var devStr = isViewerMode ? reportDeviceLabel : (shortDeviceFromUA(navigator.userAgent) + " | " + navigator.userAgent);
 
       var lines = [
         "=== SERVICE REPORT: MYWELLNESS NETCHECK (" + APP_VERSION + ") ===",
+        "Источник: " + (isViewerMode ? "Передано по QR с тренажёра" : "Прямой запуск на устройстве"),
         "Дата и время: " + (testTimestamp || new Date().toLocaleString("ru-RU")),
         "Объект: " + note,
         "Локация (GeoIP): " + clientGeo.location,
         "Внешний IP / ISP: " + clientGeo.ip + " (" + clientGeo.isp + ")",
-        "Часовой пояс (Устройство): " + clientGeo.timezone,
-        "Итог: Доступно " + okList.length + " из " + ENDPOINTS.length + " (Ошибок: " + failList.length + ")",
-        "Сеть (браузер): " + connInfo,
-        "Устройство: " + navigator.userAgent,
+        "Часовой пояс: " + clientGeo.timezone,
+        "Итог: Доступно " + okList.length + " из " + ENDPOINTS.length + " (TIMEOUT: " + toList.length + ", FAIL: " + flList.length + ")",
+        "Автодиагноз: " + diagTitle,
+        "Устройство: " + devStr,
         "-------------------------------------------"
       ];
 
-      if (failList.length > 0) {
-        lines.push("НЕДОСТУПНЫЕ УЗЛЫ (" + failList.length + "):");
-        for (var f = 0; f < failList.length; f++) {
-          lines.push(failList[f]);
-        }
+      if (toList.length > 0) {
+        lines.push("TIMEOUT — НЕТ ОТВЕТА (" + toList.length + "):");
+        for (var t = 0; t < toList.length; t++) lines.push(toList[t]);
+        lines.push("-------------------------------------------");
+      }
+
+      if (flList.length > 0) {
+        lines.push("FAIL — ОТКАЗ DNS / SSL (" + flList.length + "):");
+        for (var f = 0; f < flList.length; f++) lines.push(flList[f]);
         lines.push("-------------------------------------------");
       }
 
       if (okList.length > 0) {
         lines.push("ДОСТУПНЫЕ УЗЛЫ (" + okList.length + "):");
-        for (var o = 0; o < okList.length; o++) {
-          lines.push(okList[o]);
-        }
+        for (var o = 0; o < okList.length; o++) lines.push(okList[o]);
       }
 
-      if (waitList.length > 0) {
-        lines.push("-------------------------------------------");
-        lines.push("НЕ ПРОВЕРЕНО (" + waitList.length + "):");
-        for (var w = 0; w < waitList.length; w++) {
-          lines.push(waitList[w]);
-        }
+      if (waitList.length > 0 && errCount === 0 && okList.length === 0) {
+        lines.push("НЕ ПРОВЕРЕНО (" + waitList.length + ")");
       }
 
       lines.push("===========================================");
       return lines.join("\n");
     }
 
-    function copyReport() {
+    function flashButton(btn, text, isPrimary) {
+      if (!btn) return;
+      var prevText = btn.textContent;
+      var prevClass = btn.className;
+      btn.className = "btn btn-secondary copied";
+      btn.textContent = text;
+      setTimeout(function() {
+        btn.className = isPrimary ? "btn btn-primary" : prevClass;
+        btn.textContent = prevText;
+      }, 3000);
+    }
+
+    function copyReport(btn) {
       var text = buildReportText();
-      var copyBtn = document.getElementById("copyBtn");
+      var targetBtn = btn || document.getElementById("copyBtn");
 
       function onSuccess() {
-        copyBtn.className = "btn btn-secondary copied";
-        copyBtn.textContent = "✓ Скопировано! Отправьте инженеру";
-        setTimeout(function() {
-          copyBtn.className = "btn btn-secondary ready";
-          copyBtn.textContent = "Скопировать лог";
-        }, 3500);
+        flashButton(targetBtn, "✓ Скопировано!", false);
       }
 
       function fallbackCopy() {
@@ -872,7 +1657,7 @@
           document.execCommand("copy");
           onSuccess();
         } catch (e) {
-          alert("Не удалось скопировать автоматически. Откройте блок «Текстовый отчёт» внизу страницы и скопируйте вручную.");
+          alert("Откройте блок «Текстовый отчёт» внизу страницы и скопируйте текст вручную.");
         }
         document.body.removeChild(ta);
       }
@@ -884,12 +1669,37 @@
       }
     }
 
+    function shareReport(btn) {
+      var text = buildReportText();
+      var note = document.getElementById("clientNote").value.trim();
+      var title = "MyWellness NetCheck" + (note ? (" — " + note) : "");
+      var isPrimary = btn && btn.classList.contains("btn-primary");
+
+      if (navigator.share) {
+        navigator.share({
+          title: title,
+          text: text
+        }).catch(function(err) {
+          if (err && err.name === "AbortError") return;
+          copyReport(btn);
+        });
+      } else {
+        copyReport(btn);
+        if (btn) {
+          flashButton(btn, "✓ Скопировано — вставьте в чат", isPrimary);
+        }
+      }
+    }
+
     document.getElementById("clientNote").addEventListener("input", function() {
       document.getElementById("rawLogArea").value = buildReportText();
+      if (hasCompletedTest && !isViewerMode) renderQrSection();
     });
 
-    initList();
-    detectLocation();
+    if (!tryLoadFromHash()) {
+      initList();
+      detectLocation();
+    }
   </script>
 </body>
 </html>
