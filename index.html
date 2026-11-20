@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Service Report — MyWellness Network Check</title>
+  <style>
+    :root {
+      --bg-primary: #0b0b0d;
+      --bg-surface: #151518;
+      --bg-surface-2: #1d1d22;
+      --border: #2a2a32;
+      --accent: #ffd200;
+      --accent-hover: #ffe047;
+      --text-main: #f4f4f6;
+      --text-muted: #9ca3af;
+      --ok: #22c55e;
+      --ok-bg: rgba(34, 197, 94, 0.14);
+      --fail: #ef4444;
+      --fail-bg: rgba(239, 68, 68, 0.14);
+      --wait: #f59e0b;
+      --wait-bg: rgba(245, 158, 11, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 40px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 11, 13, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+
+    .header-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+    }
+
+    .brand-dot {
+      color: var(--accent);
+      font-size: 24px;
+      line-height: 1;
+      margin-left: 1px;
+    }
+
+    .header-badge {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: rgba(255, 210, 0, 0.1);
+      border: 1px solid rgba(255, 210, 0, 0.25);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .notice {
+      font-size: 13px;
+      color: var(--text-muted);
+      border-left: 3px solid var(--accent);
+      padding-left: 12px;
+      margin-bottom: 14px;
+    }
+
+    .notice strong {
+      color: var(--text-main);
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .text-input {
+      width: 100%;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 12px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .text-input:focus {
+      border-color: var(--accent);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 520px) {
+      .actions {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.15s, opacity 0.15s;
+      text-align: center;
+    }
+
+    .btn:active:not(:disabled) {
+      transform: scale(0.99);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0b0b0d;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface-2);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary.ready {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-secondary.copied {
+      background: var(--ok-bg);
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .stat-box {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 20px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-val.ok-text { color: var(--ok); }
+    .stat-val.fail-text { color: var(--fail); }
+
+    .stat-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-top: 2px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-primary);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.2s ease;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pill {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .pill.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .domain-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .domain-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .domain-item.hidden {
+      display: none;
+    }
+
+    .domain-name {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      color: var(--text-main);
+      word-break: break-all;
+    }
+
+    .badge {
+      flex-shrink: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .badge-idle { color: var(--text-muted); background: var(--bg-surface-2); }
+    .badge-wait { color: var(--wait); background: var(--wait-bg); }
+    .badge-ok { color: var(--ok); background: var(--ok-bg); }
+    .badge-fail { color: var(--fail); background: var(--fail-bg); }
+
+    details.raw-log-box {
+      margin-top: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+
+    details.raw-log-box summary {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .raw-textarea {
+      width: 100%;
+      height: 180px;
+      margin-top: 10px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      color: var(--text-main);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      resize: vertical;
+    }
+
+    .footer {
+      text-align: center;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 20px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">Service Report<span class="brand-dot">.</span></div>
+      <div id="versionBadge" class="header-badge">NetCheck v1.0.0</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="notice">
+        <strong>Инструкция:</strong> перед запуском отключите мобильный интернет (4G/5G) и подключите устройство к Wi-Fi сети, в которой работают тренажёры. После завершения нажмите <strong>«Скопировать лог»</strong> и отправьте инженеру.
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="clientNote">Название клуба или комментарий (необязательно)</label>
+        <input type="text" id="clientNote" class="text-input" placeholder="Например: Фитнес-клуб Олимп, зал кардио">
+      </div>
+
+      <div class="actions">
+        <button id="startBtn" class="btn btn-primary" onclick="startDiagnostics()">Запустить проверку (36)</button>
+        <button id="copyBtn" class="btn btn-secondary" onclick="copyReport()" disabled>Скопировать лог</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div id="statDone" class="stat-val">0 / 36</div>
+          <div class="stat-lbl">Проверено</div>
+        </div>
+        <div class="stat-box">
+          <div id="statOk" class="stat-val ok-text">0</div>
+          <div class="stat-lbl">Доступно</div>
+        </div>
+        <div class="stat-box">
+          <div id="statFail" class="stat-val fail-text">0</div>
+          <div class="stat-lbl">Ошибки</div>
+        </div>
+      </div>
+      <div class="progress-track">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="toolbar">
+        <div class="section-title">Узлы MyWellness / AWS</div>
+        <div class="filter-pills">
+          <button id="filterAll" class="pill active" onclick="setFilter('all')">Все (36)</button>
+          <button id="filterFail" class="pill" onclick="setFilter('fail')">Только ошибки</button>
+        </div>
+      </div>
+      <div id="domainList" class="domain-list"></div>
+    </section>
+
+    <details class="raw-log-box">
+      <summary>Текстовый отчёт (если кнопка копирования не сработала)</summary>
+      <textarea id="rawLogArea" class="raw-textarea" readonly placeholder="Запустите проверку, чтобы сформировать отчёт..."></textarea>
+    </details>
+
+    <footer id="footerVersion" class="footer">Service Report Diagnostics · v1.0.0</footer>
+  </main>
+
+  <script>
+    var APP_VERSION = "v1.0.0";
+
+    var DOMAINS = [
+      "mywellness.com", "account.mywellness.com", "achievement.mywellness.com",
+      "api.mywellness.com", "api-exerp.mywellness.com", "assessment.mywellness.com",
+      "booking.mywellness.com", "calendar.mywellness.com", "challenges.mywellness.com",
+      "cms.mywellness.com", "coach.mywellness.com", "comm.mywellness.com",
+      "contentrelease.mywellness.com", "core.mywellness.com", "eam.mywellness.com",
+      "eam-api.mywellness.com", "enterprise.mywellness.com", "leaderboards.mywellness.com",
+      "meet.mywellness.com", "oid.mywellness.com", "pay.mywellness.com",
+      "races.mywellness.com", "reporting.mywellness.com", "services.mywellness.com",
+      "storeapi.mywellness.com", "training.mywellness.com", "ud.mywellness.com",
+      "workout.mywellness.com", "fuse.mywellness.com", "iotcore.mywellness.com",
+      "onedevice-api.technogym.com", "amazonaws.com", "facebook.com",
+      "fbcdn.net", "google-analytics.com", "googleapis.com"
+    ];
+
+    var results = [];
+    var isRunning = false;
+    var currentFilter = "all";
+    var testTimestamp = "";
+
+    document.getElementById("versionBadge").textContent = "NetCheck " + APP_VERSION;
+    document.getElementById("footerVersion").textContent = "Service Report Diagnostics · " + APP_VERSION;
+
+    function initList() {
+      var container = document.getElementById("domainList");
+      container.innerHTML = "";
+      results = [];
+
+      for (var i = 0; i < DOMAINS.length; i++) {
+        var domain = DOMAINS[i];
+        results.push({
+          domain: domain,
+          status: "idle",
+          detail: "Ожидание",
+          ms: null
+        });
+
+        var row = document.createElement("div");
+        row.className = "domain-item";
+        row.id = "row-" + i;
+        row.innerHTML =
+          '<span class="domain-name">' + domain + '</span>' +
+          '<span id="badge-' + i + '" class="badge badge-idle">Ожидание</span>';
+        container.appendChild(row);
+      }
+    }
+
+    function setFilter(mode) {
+      currentFilter = mode;
+      document.getElementById("filterAll").className = mode === "all" ? "pill active" : "pill";
+      document.getElementById("filterFail").className = mode === "fail" ? "pill active" : "pill";
+      applyFilter();
+    }
+
+    function applyFilter() {
+      for (var i = 0; i < results.length; i++) {
+        var row = document.getElementById("row-" + i);
+        if (!row) continue;
+        if (currentFilter === "fail" && results[i].status !== "fail") {
+          row.classList.add("hidden");
+        } else {
+          row.classList.remove("hidden");
+        }
+      }
+    }
+
+    function checkSingle(index) {
+      return new Promise(function(resolve) {
+        var domain = DOMAINS[index];
+        var badge = document.getElementById("badge-" + index);
+        results[index].status = "wait";
+        badge.className = "badge badge-wait";
+        badge.textContent = "Проверка...";
+
+        var start = Date.now();
+        var finished = false;
+        var timeoutMs = 5000;
+
+        var timer = setTimeout(function() {
+          if (!finished) {
+            finished = true;
+            results[index].status = "fail";
+            results[index].detail = "TIMEOUT (>5s)";
+            badge.className = "badge badge-fail";
+            badge.textContent = "TIMEOUT (>5s)";
+            resolve();
+          }
+        }, timeoutMs);
+
+        fetch("https://" + domain + "/?_mwcheck=" + start, {
+          mode: "no-cors",
+          cache: "no-store"
+        })
+          .then(function() {
+            if (!finished) {
+              finished = true;
+              clearTimeout(timer);
+              var elapsed = Date.now() - start;
+              results[index].status = "ok";
+              results[index].ms = elapsed;
+              results[index].detail = "OK (" + elapsed + " ms)";
+              badge.className = "badge badge-ok";
+              badge.textContent = "OK · " + elapsed + " ms";
+              resolve();
+            }
+          })
+          .catch(function(err) {
+            if (!finished) {
+              finished = true;
+              clearTimeout(timer);
+              var msg = (err && err.message) ? err.message : "Network/SSL Error";
+              results[index].status = "fail";
+              results[index].detail = "FAIL (" + msg + ")";
+              badge.className = "badge badge-fail";
+              badge.textContent = "FAIL";
+              resolve();
+            }
+          });
+      });
+    }
+
+    function updateProgress() {
+      var done = 0;
+      var ok = 0;
+      var fail = 0;
+
+      for (var i = 0; i < results.length; i++) {
+        if (results[i].status === "ok") {
+          done++;
+          ok++;
+        } else if (results[i].status === "fail") {
+          done++;
+          fail++;
+        }
+      }
+
+      document.getElementById("statDone").textContent = done + " / " + DOMAINS.length;
+      document.getElementById("statOk").textContent = ok;
+      document.getElementById("statFail").textContent = fail;
+      document.getElementById("progressFill").style.width = Math.round((done / DOMAINS.length) * 100) + "%";
+      document.getElementById("filterFail").textContent = "Только ошибки (" + fail + ")";
+
+      applyFilter();
+      document.getElementById("rawLogArea").value = buildReportText();
+    }
+
+    function startDiagnostics() {
+      if (isRunning) return;
+      isRunning = true;
+
+      var startBtn = document.getElementById("startBtn");
+      var copyBtn = document.getElementById("copyBtn");
+      startBtn.disabled = true;
+      startBtn.textContent = "Выполняется проверка...";
+      copyBtn.disabled = true;
+      copyBtn.className = "btn btn-secondary";
+      copyBtn.textContent = "Скопировать лог";
+
+      testTimestamp = new Date().toLocaleString("ru-RU");
+      initList();
+      updateProgress();
+
+      var cursor = 0;
+      var concurrency = 6;
+
+      function worker() {
+        if (cursor >= DOMAINS.length) {
+          return Promise.resolve();
+        }
+        var idx = cursor++;
+        return checkSingle(idx).then(function() {
+          updateProgress();
+          return worker();
+        });
+      }
+
+      var workers = [];
+      for (var w = 0; w < concurrency; w++) {
+        workers.push(worker());
+      }
+
+      Promise.all(workers).then(function() {
+        isRunning = false;
+        startBtn.disabled = false;
+        startBtn.textContent = "Повторить проверку";
+        copyBtn.disabled = false;
+        copyBtn.className = "btn btn-secondary ready";
+        document.getElementById("rawLogArea").value = buildReportText();
+      });
+    }
+
+    function buildReportText() {
+      var okList = [];
+      var failList = [];
+      var waitList = [];
+
+      for (var i = 0; i < results.length; i++) {
+        var r = results[i];
+        if (r.status === "ok") {
+          okList.push("[OK]   " + r.domain + " — " + r.ms + " ms");
+        } else if (r.status === "fail") {
+          failList.push("[FAIL] " + r.domain + " — " + r.detail);
+        } else {
+          waitList.push("[WAIT] " + r.domain);
+        }
+      }
+
+      var note = document.getElementById("clientNote").value.trim() || "Не указан";
+      var connInfo = "н/д";
+      if (navigator.connection) {
+        connInfo = (navigator.connection.type || "") + " " + (navigator.connection.effectiveType || "");
+        connInfo = connInfo.trim() || "н/д";
+      }
+
+      var lines = [
+        "=== SERVICE REPORT: MYWELLNESS NETCHECK (" + APP_VERSION + ") ===",
+        "Дата и время: " + (testTimestamp || new Date().toLocaleString("ru-RU")),
+        "Объект: " + note,
+        "Итог: Доступно " + okList.length + " из " + DOMAINS.length + " (Ошибок: " + failList.length + ")",
+        "Сеть (браузер): " + connInfo,
+        "Устройство: " + navigator.userAgent,
+        "-------------------------------------------"
+      ];
+
+      if (failList.length > 0) {
+        lines.push("НЕДОСТУПНЫЕ ДОМЕНЫ (" + failList.length + "):");
+        for (var f = 0; f < failList.length; f++) {
+          lines.push(failList[f]);
+        }
+        lines.push("-------------------------------------------");
+      }
+
+      if (okList.length > 0) {
+        lines.push("ДОСТУПНЫЕ ДОМЕНЫ (" + okList.length + "):");
+        for (var o = 0; o < okList.length; o++) {
+          lines.push(okList[o]);
+        }
+      }
+
+      if (waitList.length > 0) {
+        lines.push("-------------------------------------------");
+        lines.push("НЕ ПРОВЕРЕНО (" + waitList.length + "):");
+        for (var w = 0; w < waitList.length; w++) {
+          lines.push(waitList[w]);
+        }
+      }
+
+      lines.push("===========================================");
+      return lines.join("\n");
+    }
+
+    function copyReport() {
+      var text = buildReportText();
+      var copyBtn = document.getElementById("copyBtn");
+
+      function onSuccess() {
+        copyBtn.className = "btn btn-secondary copied";
+        copyBtn.textContent = "✓ Скопировано! Отправьте инженеру";
+        setTimeout(function() {
+          copyBtn.className = "btn btn-secondary ready";
+          copyBtn.textContent = "Скопировать лог";
+        }, 3500);
+      }
+
+      function fallbackCopy() {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.top = "-9999px";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+          document.execCommand("copy");
+          onSuccess();
+        } catch (e) {
+          alert("Не удалось скопировать автоматически. Откройте блок «Текстовый отчёт» внизу страницы и скопируйте вручную.");
+        }
+        document.body.removeChild(ta);
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(onSuccess).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    }
+
+    document.getElementById("clientNote").addEventListener("input", function() {
+      document.getElementById("rawLogArea").value = buildReportText();
+    });
+
+    initList();
+  </script>
+</body>
+</html>
